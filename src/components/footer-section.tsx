@@ -1,3 +1,4 @@
+
 "use client";
 
 import type React from 'react';
@@ -42,15 +43,11 @@ const FooterSection: React.FC = () => {
               Crafting poetry from your imagination.
             </p>
             <div className="flex space-x-4">
-              <Link href="#" aria-label="Instagram" legacyBehavior>
-                <a target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                  <InstagramIcon size={28} />
-                </a>
+              <Link href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <InstagramIcon size={28} />
               </Link>
-              <Link href="#" aria-label="Twitter" legacyBehavior>
-                <a target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                  <TwitterIcon size={28} />
-                </a>
+              <Link href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <TwitterIcon size={28} />
               </Link>
             </div>
           </div>
