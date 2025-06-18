@@ -13,7 +13,7 @@ import {z} from 'genkit';
 
 const GeneratePoemImageInputSchema = z.object({
   poemText: z.string().describe('The full text of the poem.'),
-  poemTopic: z.string().describe('The topic or title of the poem.'),
+  poemTopic: z.string().describe('The topic or title of the poem, to be displayed prominently on the image.'),
   theme: z.string().describe('A description of the visual theme for the image background (e.g., "a vibrant sunset with warm oranges, yellows, and reds").'),
   fontFamily: z.string().describe('A description of the desired font style (e.g., "a classic, readable serif font like Alegreya").'),
   textColorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color code").describe('The hex color code for the poem text (e.g., "#FFFFFF").'),
@@ -34,21 +34,25 @@ export async function generatePoemImage(input: GeneratePoemImageInput): Promise<
 const promptDefinition = ai.definePrompt({
   name: 'generatePoemImagePrompt',
   input: {schema: GeneratePoemImageInputSchema},
-  prompt: `You are a creative graphic design AI. Your task is to generate an image suitable for sharing on social media, featuring a poem.
+  prompt: `You are a creative graphic design AI. Your task is to generate an image suitable for sharing on social media, featuring a poem and its title.
+
+Poem Title:
+---
+{{{poemTopic}}}
+---
 
 Poem Text:
 ---
 {{{poemText}}}
 ---
 
-Poem Topic/Title: {{{poemTopic}}}
-
 Visual Style Guidelines:
+- Title Display: The "Poem Title" ("{{{poemTopic}}}") MUST be rendered prominently at the top of the image, above the poem text. Use a font size and style that makes it clearly distinguishable as the main title.
 - Background Theme: Create a background that visually represents: "{{{theme}}}". The background should be aesthetically pleasing and complement the poem.
 - Text Appearance:
-    - Font Style: Render the poem text using a font that matches this description: "{{{fontFamily}}}". Prioritize legibility.
-    - Text Color: The poem text must be in the color specified by this hex code: {{{textColorHex}}}. Ensure good contrast with the background.
-- Layout & Sizing: Artistically place the poem text onto the background. The text should be the main focus but well-integrated. The final image dimensions and aspect ratio should be guided by the following instruction: "{{{aspectRatio}}}". Ensure the entire poem is legible and not overly compressed or shrunk to fit. The image canvas should expand as needed to accommodate the full text if the instruction implies dynamic sizing.
+    - Font Style: Render the poem text (and title) using a font that matches this description: "{{{fontFamily}}}". Prioritize legibility for both.
+    - Text Color: The poem text (and title) must be in the color specified by this hex code: {{{textColorHex}}}. Ensure good contrast with the background.
+- Layout & Sizing: Artistically place the poem title and text onto the background. The title and poem text should be the main focus but well-integrated. The final image dimensions and aspect ratio should be guided by the following instruction: "{{{aspectRatio}}}". Ensure the entire poem and title are legible and not overly compressed or shrunk to fit. The image canvas should expand as needed to accommodate the full text if the instruction implies dynamic sizing.
 {{#if authorName}}
 - Author Attribution: Display the author's name: "{{{authorName}}}" subtly beneath the poem. You can prefix it with "by" or use an em-dash, e.g., "— {{{authorName}}}". Ensure it is less prominent than the poem title or text.
 {{/if}}
@@ -104,3 +108,4 @@ const generatePoemImageFlow = ai.defineFlow(
     return { imageDataUri: media.url };
   }
 );
+
