@@ -12,10 +12,11 @@ export default function Home() {
   const [generatedPoem, setGeneratedPoem] = useState<string | null>(null);
   const [poemTopic, setPoemTopic] = useState<string | null>(null);
   const [generatorInputValue, setGeneratorInputValue] = useState<string>('');
+  const [authorName, setAuthorName] = useState<string>('');
 
   // Image Preview State
-  const [selectedTheme, setSelectedTheme] = useState<string>("theme-soft-gradient-pastels"); // Default to new theme
-  const [selectedFont, setSelectedFont] = useState<string>("font-body"); // Default to Alegreya
+  const [selectedTheme, setSelectedTheme] = useState<string>("theme-soft-gradient-pastels");
+  const [selectedFont, setSelectedFont] = useState<string>("font-body");
   const [selectedTextColor, setSelectedTextColor] = useState<string>("#4A4A4A"); // Default for soft gradient
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original-fit");
 
@@ -33,13 +34,13 @@ export default function Home() {
 
   useEffect(() => {
     const themeDefaultTextColors: Record<string, string> = {
-      'theme-soft-gradient-pastels': '#4A4A4A', // Dark Grey
-      'theme-vintage-parchment': '#5D4037',     // Dark Sepia/Brown
-      'theme-monochrome-dark': '#FAFAFA',       // Off-white
-      'theme-blurred-nature': '#FFFFFF',        // White
-      'theme-minimalist-abstract': '#333333',   // Dark Grey
-      'theme-aesthetic-collage': '#4B4254',     // Dark Desaturated Purple
-      'theme-glassmorphism-glow': '#F0F0F0',    // Light Grey/Off-white
+      'theme-soft-gradient-pastels': '#4A4A4A',
+      'theme-vintage-parchment': '#5D4037',
+      'theme-monochrome-dark': '#FAFAFA',
+      'theme-blurred-nature': '#FFFFFF',
+      'theme-minimalist-abstract': '#333333',
+      'theme-aesthetic-collage': '#4B4254',
+      'theme-glassmorphism-glow': '#F0F0F0',
     };
 
     if (themeDefaultTextColors[selectedTheme]) {
@@ -73,6 +74,8 @@ export default function Home() {
           setSelectedTextColor={setSelectedTextColor}
           selectedAspectRatio={selectedAspectRatio}
           setSelectedAspectRatio={setSelectedAspectRatio}
+          authorName={authorName}
+          setAuthorName={setAuthorName}
         />
       )}
 

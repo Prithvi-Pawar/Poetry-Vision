@@ -18,6 +18,7 @@ const GeneratePoemImageInputSchema = z.object({
   fontFamily: z.string().describe('A description of the desired font style (e.g., "a classic, readable serif font like Alegreya").'),
   textColorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color code").describe('The hex color code for the poem text (e.g., "#FFFFFF").'),
   aspectRatio: z.string().describe('A description of the desired aspect ratio and sizing (e.g., "4:5 portrait aspect ratio", or "dynamic, prioritize fitting all poem text legibly without compression. Image canvas should expand as needed, prefer portrait for long poems, otherwise square.").'),
+  authorName: z.string().optional().describe('The name of the poet/author to be displayed on the image, typically prefixed with "by " or "— ".'),
 });
 export type GeneratePoemImageInput = z.infer<typeof GeneratePoemImageInputSchema>;
 
@@ -48,6 +49,9 @@ Visual Style Guidelines:
     - Font Style: Render the poem text using a font that matches this description: "{{{fontFamily}}}". Prioritize legibility.
     - Text Color: The poem text must be in the color specified by this hex code: {{{textColorHex}}}. Ensure good contrast with the background.
 - Layout & Sizing: Artistically place the poem text onto the background. The text should be the main focus but well-integrated. The final image dimensions and aspect ratio should be guided by the following instruction: "{{{aspectRatio}}}". Ensure the entire poem is legible and not overly compressed or shrunk to fit. The image canvas should expand as needed to accommodate the full text if the instruction implies dynamic sizing.
+{{#if authorName}}
+- Author Attribution: Display the author's name: "{{{authorName}}}" subtly beneath the poem. You can prefix it with "by" or use an em-dash, e.g., "— {{{authorName}}}". Ensure it is less prominent than the poem title or text.
+{{/if}}
 
 Generate an image that embodies these characteristics. The image should be beautiful, clear, and shareable.
 `,
@@ -60,11 +64,8 @@ const generatePoemImageFlow = ai.defineFlow(
     outputSchema: GeneratePoemImageOutputSchema,
   },
   async (input) => {
-    // Render the prompt template to get the full request structure
     const renderedRequest = await promptDefinition.render(input);
 
-    // Extract the plain text content for image generation
-    // The image model expects a simple string prompt, not the MessageData[] structure.
     let promptText = "";
     if (
       renderedRequest.messages &&
@@ -72,7 +73,6 @@ const generatePoemImageFlow = ai.defineFlow(
       renderedRequest.messages[0].content &&
       renderedRequest.messages[0].content.length > 0
     ) {
-      // Assuming the first part of the content is the TextPart
       const contentPart = renderedRequest.messages[0].content[0];
       if ('text' in contentPart && typeof contentPart.text === 'string') {
         promptText = contentPart.text;
@@ -84,10 +84,10 @@ const generatePoemImageFlow = ai.defineFlow(
     }
 
     const {media} = await ai.generate({
-      model: 'googleai/gemini-2.0-flash-exp', // Ensure this model supports image generation
-      prompt: promptText, // Pass the extracted plain text string
+      model: 'googleai/gemini-2.0-flash-exp', 
+      prompt: promptText, 
       config: {
-        responseModalities: ['TEXT', 'IMAGE'], // MUST provide both TEXT and IMAGE
+        responseModalities: ['TEXT', 'IMAGE'], 
         safetySettings: [
             { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
             { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },

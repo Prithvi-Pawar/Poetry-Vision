@@ -4,8 +4,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon, Loader2, Languages } from 'lucide-react';
+import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon, Loader2, Languages, User as UserIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { generatePoemImage } from '@/ai/flows/generate-poem-image-flow';
 import { translateText } from '@/ai/flows/translate-text-flow';
@@ -20,6 +21,8 @@ interface InstagramPreviewSectionProps {
   setSelectedTextColor: (color: string) => void;
   selectedAspectRatio: string;
   setSelectedAspectRatio: (ratio: string) => void;
+  authorName: string;
+  setAuthorName: (name: string) => void;
 }
 
 const fontOptions = [
@@ -97,15 +100,16 @@ const languageOptions = [
     { value: "Russian", label: "Russian (Русский)" },
     { value: "Sanskrit", label: "Sanskrit (संस्कृतम्)" },
     { value: "Spanish", label: "Spanish (Español)" },
-];
+].sort((a, b) => a.label.localeCompare(b.label));
+
 
 // Mappings for LLM prompt
 const themeDescriptions: Record<string, string> = {
-  'theme-soft-gradient-pastels': "A smooth, horizontal or diagonal gradient transition between light, soothing pastel colors like lavender, baby pink, peach, mint, or pale blue. Creates a dreamy, calm atmosphere.",
-  'theme-vintage-parchment': "A textured background mimicking old, slightly yellowed parchment paper, possibly with faint lines or a vintage feel. Torn edges or coffee stain effects are optional if the AI can render them subtly.",
-  'theme-monochrome-dark': "A solid, very dark background (e.g., jet black, deep navy, or graphite grey) with light-colored text (e.g., white, beige, or soft gold) for a dramatic, high-contrast, elegant look.",
+  'theme-soft-gradient-pastels': "A smooth, horizontal or diagonal gradient transition between light, soothing pastel colors like lavender, baby pink, peach, mint, or pale blue. Creates a dreamy, calm atmosphere. data-ai-hint: pastel gradient",
+  'theme-vintage-parchment': "A textured background mimicking old, slightly yellowed parchment paper, possibly with faint lines or a vintage feel. Torn edges or coffee stain effects are optional if the AI can render them subtly. data-ai-hint: parchment texture",
+  'theme-monochrome-dark': "A solid, very dark background (e.g., jet black, deep navy, or graphite grey) with light-colored text (e.g., white, beige, or soft gold) for a dramatic, high-contrast, elegant look. data-ai-hint: dark elegant",
   'theme-blurred-nature': "A nature scene (forest, ocean, sunset, flowers) as a background, with a soft blur effect applied so the text remains the focus. The nature imagery should set a peaceful, serene, or spiritual mood. data-ai-hint: nature blur",
-  'theme-minimalist-abstract': "A clean, minimalist background with subtle abstract shapes, light lines, or soft brush strokes, typically using a neutral color palette. The design should feel modern and artistic, keeping the text as the primary focus.",
+  'theme-minimalist-abstract': "A clean, minimalist background with subtle abstract shapes, light lines, or soft brush strokes, typically using a neutral color palette. The design should feel modern and artistic, keeping the text as the primary focus. data-ai-hint: abstract minimal",
   'theme-aesthetic-collage': "A scrapbook-inspired theme featuring elements like torn paper, doodles, tape graphics, or polaroid frames. It should feel youthful, expressive, and handmade. data-ai-hint: scrapbook collage",
   'theme-glassmorphism-glow': "A modern UI-inspired theme. The poem text appears on a translucent, frosted-glass-style panel. The background behind the panel is often a blurred image or a soft gradient with a subtle glow. The look should be sleek and futuristic. data-ai-hint: glassmorphism abstract",
 };
@@ -150,15 +154,17 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   setSelectedTextColor,
   selectedAspectRatio,
   setSelectedAspectRatio,
+  authorName,
+  setAuthorName,
 }) => {
   const { toast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
   const [currentDisplayedPoem, setCurrentDisplayedPoem] = useState<string | null>(poem);
-  const [targetLanguage, setTargetLanguage] = useState<string>("Spanish"); // Default to Spanish
+  const [targetLanguage, setTargetLanguage] = useState<string>("Spanish");
 
   useEffect(() => {
-    setCurrentDisplayedPoem(poem); // Reset to original poem when prop changes
+    setCurrentDisplayedPoem(poem);
   }, [poem]);
 
   const handleDownloadImage = async () => {
@@ -185,7 +191,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     } else if (selectedAspectRatio === "4:5") {
       aspectRatioForAI = "4:5 portrait aspect ratio";
     } else {
-      aspectRatioForAI = "1:1 square aspect ratio"; // Fallback, though UI only offers two
+      aspectRatioForAI = "1:1 square aspect ratio"; 
     }
 
     try {
@@ -196,6 +202,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
         fontFamily: fontDescription,
         textColorHex: selectedTextColor,
         aspectRatio: aspectRatioForAI,
+        authorName: authorName.trim() || undefined,
       });
 
       if (result.imageDataUri) {
@@ -225,7 +232,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   };
 
   const handleTranslatePoem = async () => {
-    if (!poem) { // Always translate the original poem
+    if (!poem) { 
       toast({
         title: "No Poem to Translate",
         description: "Please generate a poem first.",
@@ -258,8 +265,13 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   };
 
 
-  const displayPoemText = currentDisplayedPoem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
+  let displayPoemText = currentDisplayedPoem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
+  
+  const poemWithAuthor = authorName.trim() 
+    ? `${displayPoemText}\n\n— ${authorName.trim()}` 
+    : displayPoemText;
+
 
   const previewBaseWidth = 280;
   let calculatedHeight: string | number = 'auto';
@@ -268,7 +280,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     calculatedHeight = (previewBaseWidth * 5) / 4;
   } else if (selectedAspectRatio === "original-fit") {
      // handled by auto and min/max height in style
-  } else { // Default to 1:1 if something unexpected (though UI only offers two)
+  } else { 
     calculatedHeight = previewBaseWidth;
   }
 
@@ -277,11 +289,11 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     color: selectedTextColor,
     width: `${previewBaseWidth}px`,
     height: typeof calculatedHeight === 'number' ? `${calculatedHeight}px` : calculatedHeight,
-    minHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 0.8}px` : undefined, // Ensure some min height for original-fit
-    maxHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 2.5}px` : undefined, // Allow more room for text in original-fit
+    minHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 0.8}px` : (previewBaseWidth * 1),
+    maxHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 2.5}px` : undefined, 
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'hidden', // Ensure content clip
+    overflow: 'hidden', 
   };
 
 
@@ -298,6 +310,20 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
+              <div>
+                <label htmlFor="author-name-input" className="font-medium text-foreground/80 mb-1 block flex items-center">
+                  <UserIcon className="mr-2 h-5 w-5 text-accent"/> Author Name (Optional)
+                </label>
+                <Input
+                  id="author-name-input"
+                  type="text"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  placeholder="e.g., Your Name, Anonymous"
+                  className="text-base"
+                  aria-label="Author name input"
+                />
+              </div>
               <div>
                 <label htmlFor="font-select" className="font-medium text-foreground/80 mb-1 block flex items-center">
                   <TypeIcon className="mr-2 h-5 w-5 text-accent"/> Font Style
@@ -402,12 +428,11 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl`}
                 style={previewStyle}
               >
-                {/* For themes like glassmorphism that need an inner div for styling */}
                 {selectedTheme === 'theme-glassmorphism-glow' ? (
                   <div>
                     <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
                     <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
-                      {displayPoemText.split('\n').map((line, index) => (
+                      {poemWithAuthor.split('\n').map((line, index) => (
                         <React.Fragment key={index}>
                           {line}
                           <br />
@@ -419,7 +444,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                   <>
                     <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
                     <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
-                      {displayPoemText.split('\n').map((line, index) => (
+                      {poemWithAuthor.split('\n').map((line, index) => (
                         <React.Fragment key={index}>
                           {line}
                           <br />
