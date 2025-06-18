@@ -18,7 +18,7 @@ const GeneratePoemImageInputSchema = z.object({
   fontFamily: z.string().describe('A description of the desired font style (e.g., "a classic, readable serif font like Alegreya").'),
   textColorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color code").describe('The hex color code for the poem text (e.g., "#FFFFFF").'),
   aspectRatio: z.string().describe('A description of the desired aspect ratio and sizing (e.g., "4:5 portrait aspect ratio", or "dynamic, prioritize fitting all poem text legibly without compression. Image canvas should expand as needed, prefer portrait for long poems, otherwise square.").'),
-  authorName: z.string().optional().describe('The name of the poet/author to be displayed on the image, typically prefixed with "by " or "— ".'),
+  authorName: z.string().optional().describe('The name of the poet/author to be displayed on the image, typically prefixed with "— ".'),
 });
 export type GeneratePoemImageInput = z.infer<typeof GeneratePoemImageInputSchema>;
 

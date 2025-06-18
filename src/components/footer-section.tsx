@@ -38,7 +38,7 @@ const FooterSection: React.FC = () => {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8 items-start">
           <div className="space-y-4">
-            <h3 className="font-headline text-2xl text-primary">Verse Vision</h3>
+            <h3 className="font-headline text-2xl text-primary">Poetry Vision</h3>
             <p className="text-muted-foreground">
               Crafting poetry from your imagination.
             </p>
@@ -80,7 +80,7 @@ const FooterSection: React.FC = () => {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Verse Vision. All rights reserved. Made with ♡.
+          &copy; {new Date().getFullYear()} Poetry Vision. All rights reserved. Made with ♡.
         </div>
       </div>
     </footer>

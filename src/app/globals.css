@@ -156,13 +156,13 @@ h1, h2, h3, h4, h5, h6 {
   word-wrap: break-word;
 }
 
-/* New Theme 1: Soft Gradient Pastels */
+/* Original Theme 1: Soft Gradient Pastels */
 .theme-soft-gradient-pastels {
   background: linear-gradient(135deg, #FFD1DC 0%, #FFDAB9 33%, #E0FFFF 66%, #D8BFD8 100%); /* Baby Pink, Peach, Pale Blue, Lavender */
   --font-color-preview: #4A4A4A; /* Dark Grey for readability */
 }
 
-/* New Theme 2: Paper Texture / Old Parchment */
+/* Original Theme 2: Paper Texture / Old Parchment */
 .theme-vintage-parchment {
   background-color: #F5F5DC; /* Beige - base for parchment */
   background-image: 
@@ -174,79 +174,135 @@ h1, h2, h3, h4, h5, h6 {
   --font-color-preview: #5D4037; /* Dark Sepia/Brown */
 }
 
-/* New Theme 3: Dark with Light Text (Monochrome) */
+/* Original Theme 3: Dark with Light Text (Monochrome) */
 .theme-monochrome-dark {
   background-color: #1A1A1A; /* Very dark grey / near black */
   --font-color-preview: #FAFAFA; /* Off-white for text */
 }
 
-/* New Theme 4: Nature Backgrounds (Blurred) */
+/* Original Theme 4: Nature Backgrounds (Blurred) */
 .theme-blurred-nature {
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder, AI will generate blurred nature */
+  background-image: url('https://placehold.co/600x400.png'); 
   background-size: cover;
   background-position: center;
-  position: relative;
-  /* For client-side blur effect on placeholder if desired, though AI should handle actual blur */
-  /* &::before {
-    content: "";
-    position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    background: inherit;
-    filter: blur(5px);
-    z-index: -1;
-  } */
-  --font-color-preview: #FFFFFF; /* White text, often good on blurred nature */
+  --font-color-preview: #FFFFFF; 
 }
 
-/* New Theme 5: Minimalist Abstract Art */
+/* Original Theme 5: Minimalist Abstract Art */
 .theme-minimalist-abstract {
-  background-color: #F8F8F8; /* Light neutral background */
+  background-color: #F8F8F8; 
   background-image: 
     linear-gradient(45deg, rgba(204, 204, 204, 0.2) 25%, transparent 25%), 
     linear-gradient(-45deg, rgba(204, 204, 204, 0.2) 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, rgba(204, 204, 204, 0.2) 75%),
     linear-gradient(-45deg, transparent 75%, rgba(204, 204, 204, 0.2) 75%);
   background-size: 30px 30px;
-  background-position: 0 0, 0 15px, 15px -15px, -15px 0px; /* Offset for subtle pattern */
-  --font-color-preview: #333333; /* Dark grey text */
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0px; 
+  --font-color-preview: #333333; 
 }
 
-/* New Theme 6: Aesthetic Collage / Scrapbook Style */
+/* Original Theme 6: Aesthetic Collage / Scrapbook Style */
 .theme-aesthetic-collage {
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for collage */
-  background-color: #FFF9E6; /* Creamy off-white base */
+  background-image: url('https://placehold.co/600x400.png'); 
+  background-color: #FFF9E6; 
   background-size: cover;
   background-position: center;
-  border: 5px dashed #D1C4E9; /* Light purple dashed border */
-  --font-color-preview: #4B4254; /* Darker, slightly desaturated purple */
+  border: 5px dashed #D1C4E9; 
+  --font-color-preview: #4B4254; 
 }
 
-/* New Theme 7: Glassmorphism / Blur + Glow */
+/* Original Theme 7: Glassmorphism / Blur + Glow */
 .theme-glassmorphism-glow {
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for blurred/glow background */
+  background-image: url('https://placehold.co/600x400.png'); 
   background-size: cover;
   background-position: center;
   position: relative;
-  overflow: hidden; /* To contain pseudo-elements */
+  overflow: hidden; 
 }
 
-.theme-glassmorphism-glow > div { /* Target inner content divs for glass effect */
-  background-color: rgba(255, 255, 255, 0.25); /* Semi-transparent white */
+.theme-glassmorphism-glow > div { 
+  background-color: rgba(255, 255, 255, 0.25); 
   backdrop-filter: blur(10px) saturate(180%);
   -webkit-backdrop-filter: blur(10px) saturate(180%);
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
-  padding: inherit; /* Inherit padding from poem-preview-area */
+  padding: inherit; 
   width: 100%;
   height: 100%;
   box-sizing: border-box;
 }
 .theme-glassmorphism-glow {
-  --font-color-preview: #F0F0F0; /* Light text for readability on glass */
+  --font-color-preview: #F0F0F0; 
 }
 
+/* New Theme 8: Celestial / Cosmic Theme */
+.theme-celestial-cosmic {
+  background-color: #0c001f; /* Deep indigo/navy */
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for stars/galaxy */
+  background-size: cover;
+  background-position: center;
+  --font-color-preview: #E0E0E0; /* Light Grey/Silver */
+}
 
-/* Ensure data-ai-hint attributes for theme images if any real images are used */
-.theme-blurred-nature[style*="url("], .theme-aesthetic-collage[style*="url("], .theme-glassmorphism-glow[style*="url("] {
-  /* This is just a conceptual note, the data-ai-hint is on the HTML element */
+/* New Theme 9: Modern Grid / Typographic Theme */
+.theme-modern-grid {
+  background-color: #FFFFFF;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  --font-color-preview: #1A1A1A; /* Very Dark Grey/Black */
+}
+
+/* New Theme 10: Film Frame / Retro Analog Theme */
+.theme-film-frame {
+  background-color: #F5E8D1; /* Sepia/Cream */
+  border: 10px solid #292019; /* Dark brown border like film */
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+  padding: 15px; /* Inner padding */
+  --font-color-preview: #4A3B31; /* Dark Sepia Text */
+}
+
+/* New Theme 11: Rainy Window / Watercolor Blur */
+.theme-rainy-window {
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for rain/blur */
+  background-size: cover;
+  background-position: center;
+  --font-color-preview: #FFFFFF; /* White Text */
+}
+
+/* New Theme 12: Mystic / Tarot / Spiritual Theme */
+.theme-mystic-tarot {
+  background-color: #2c1e3e; /* Deep Purple */
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for mystic symbols */
+  background-size: cover;
+  background-position: center;
+  --font-color-preview: #F0E6FF; /* Light Lavender/Goldish */
+}
+
+/* New Theme 13: Y2K Aesthetic / Cybercore */
+.theme-y2k-aesthetic {
+  background: linear-gradient(135deg, #FF69B4, #00FFFF, #FFFB00); /* Hot Pink, Cyan, Yellow */
+  background-size: 300% 300%;
+  animation: gradientBG 10s ease infinite;
+  --font-color-preview: #FFFFFF; /* White for strong contrast, or black */
+  border: 3px solid #FFFFFF;
+}
+
+/* New Theme 14: Boho / Earthy Theme */
+.theme-boho-earthy {
+  background-color: #F0EAD6; /* Sandy Beige */
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for line art/florals */
+  background-size: cover;
+  background-position: center;
+  --font-color-preview: #4A3B31; /* Dark Sepia */
+}
+
+/* New Theme 15: Dream Journal / Cloud Theme */
+.theme-dream-journal {
+  background: linear-gradient(to bottom, #a1c4fd 0%, #c2e9fb 100%); /* Sky Blue Gradient */
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for clouds/sparkles */
+  background-size: cover;
+  background-position: center;
+  --font-color-preview: #FFFFFF; /* White */
 }

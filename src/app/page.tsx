@@ -41,6 +41,14 @@ export default function Home() {
       'theme-minimalist-abstract': '#333333',
       'theme-aesthetic-collage': '#4B4254',
       'theme-glassmorphism-glow': '#F0F0F0',
+      'theme-celestial-cosmic': '#E0E0E0',
+      'theme-modern-grid': '#222222',
+      'theme-film-frame': '#3B2F2F',
+      'theme-rainy-window': '#FFFFFF',
+      'theme-mystic-tarot': '#F0E6FF',
+      'theme-y2k-aesthetic': '#FFFFFF',
+      'theme-boho-earthy': '#4A3B31',
+      'theme-dream-journal': '#FFFFFF',
     };
 
     if (themeDefaultTextColors[selectedTheme]) {

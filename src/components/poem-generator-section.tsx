@@ -28,6 +28,14 @@ const themes = [
   { value: "theme-minimalist-abstract", label: "🌀 Minimalist Abstract" },
   { value: "theme-aesthetic-collage", label: "✂️ Aesthetic Collage" },
   { value: "theme-glassmorphism-glow", label: "✨ Glassmorphism Glow" },
+  { value: "theme-celestial-cosmic", label: "🌘 Celestial / Cosmic" },
+  { value: "theme-modern-grid", label: "🔲 Modern Grid / Typographic" },
+  { value: "theme-film-frame", label: "🎞️ Film Frame / Retro Analog" },
+  { value: "theme-rainy-window", label: "🌧️ Rainy Window / Watercolor" },
+  { value: "theme-mystic-tarot", label: "🔮 Mystic / Tarot / Spiritual" },
+  { value: "theme-y2k-aesthetic", label: "🧃 Y2K Aesthetic / Cybercore" },
+  { value: "theme-boho-earthy", label: "🌻 Boho / Earthy" },
+  { value: "theme-dream-journal", label: "🌈 Dream Journal / Cloud" },
 ];
 
 const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem, initialTopic, setInitialTopic }) => {

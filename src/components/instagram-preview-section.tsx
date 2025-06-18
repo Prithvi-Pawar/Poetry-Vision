@@ -113,6 +113,14 @@ const themeDescriptions: Record<string, string> = {
   'theme-minimalist-abstract': "A clean, minimalist background with subtle abstract shapes, light lines, or soft brush strokes, typically using a neutral color palette. The design should feel modern and artistic, keeping the text as the primary focus. data-ai-hint: abstract minimal",
   'theme-aesthetic-collage': "A scrapbook-inspired theme featuring elements like torn paper, doodles, tape graphics, or polaroid frames. It should feel youthful, expressive, and handmade. data-ai-hint: scrapbook collage",
   'theme-glassmorphism-glow': "A modern UI-inspired theme. The poem text appears on a translucent, frosted-glass-style panel. The background behind the panel is often a blurred image or a soft gradient with a subtle glow. The look should be sleek and futuristic. data-ai-hint: glassmorphism abstract",
+  'theme-celestial-cosmic': "Background features stars, galaxies, moon phases, or night skies with dark hues (navy, black, deep purple) and tiny glowing elements like constellations. Evokes vastness, dreams, mystery, introspection. data-ai-hint: galaxy stars",
+  'theme-modern-grid': "A clean, grid-based layout with bold typography, block elements, and high contrast. Often black & white or grayscale. Emphasizes poem's form and layout, like visual poetry. data-ai-hint: modern grid",
+  'theme-film-frame': "Inspired by old film rolls or photo negatives, this theme uses sepia tones, film grain, or Polaroid-style frames. Adds an emotional, timeless feeling. data-ai-hint: film grain",
+  'theme-rainy-window': "Uses a raindrop-covered glass effect or subtle watercolor blending. Expresses melancholy, longing, or inner thoughts. Mimics looking out during a rainy day. data-ai-hint: rain window",
+  'theme-mystic-tarot': "Inspired by tarot cards, crystals, incense smoke, or moon rituals. Includes icons like hands, moons, or symbolic art. Connects with deeper themes of destiny, soul, transformation. data-ai-hint: mystic symbols",
+  'theme-y2k-aesthetic': "Bright neons, pixel patterns, chrome effects, and 2000s internet nostalgia. Uses gradients, smileys, pop culture icons, or bubbly fonts. data-ai-hint: y2k cyber",
+  'theme-boho-earthy': "Bohemian-inspired backgrounds with earthy tones like terracotta, sage green, and sand. May include line art (plants, faces), floral doodles, or sun and moon motifs. Warm and handmade-feeling. data-ai-hint: boho pattern",
+  'theme-dream-journal': "Soft clouds, floating elements, sparkles, light pastel or sky-blue palettes. Text feels like it's drifting. Peaceful, magical vibe for dreams, imagination, inner thoughts. data-ai-hint: dream clouds",
 };
 
 const fontDescriptions: Record<string, string> = {
@@ -211,7 +219,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
       if (result.imageDataUri) {
         const link = document.createElement('a');
         link.href = result.imageDataUri;
-        link.download = `verse_vision_${finalPoemTopic.replace(/\s+/g, '_') || 'poem'}.png`;
+        link.download = `poetry_vision_${finalPoemTopic.replace(/\s+/g, '_') || 'poem'}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

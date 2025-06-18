@@ -17,7 +17,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ scrollToGenerator }) => {
           Turn Feelings into Poetry
         </h1>
         <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-2xl mx-auto drop-shadow-sm">
-          Unleash your inner poet with Verse Vision. Transform your thoughts, emotions, or even just a single word into beautiful, AI-crafted verses.
+          Unleash your inner poet with Poetry Vision. Transform your thoughts, emotions, or even just a single word into beautiful, AI-crafted verses.
         </p>
         <Button
           size="lg"
