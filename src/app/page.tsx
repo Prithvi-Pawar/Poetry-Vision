@@ -13,10 +13,10 @@ export default function Home() {
   const [poemTopic, setPoemTopic] = useState<string | null>(null);
   const [generatorInputValue, setGeneratorInputValue] = useState<string>('');
 
-  // Instagram Preview State
+  // Image Preview State
   const [selectedTheme, setSelectedTheme] = useState<string>("theme-default");
   const [selectedFont, setSelectedFont] = useState<string>("font-body"); // Default to Alegreya
-  const [selectedTextColor, setSelectedTextColor] = useState<string>("#333333"); 
+  const [selectedTextColor, setSelectedTextColor] = useState<string>("#333333");
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original-fit");
 
   const handlePoemGenerated = (poem: string, topic: string) => {

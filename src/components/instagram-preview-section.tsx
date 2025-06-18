@@ -85,16 +85,18 @@ const aspectRatioOptions = [
 ];
 
 const languageOptions = [
+    { value: "Arabic", label: "Arabic (العربية)" },
+    { value: "Chinese (Simplified)", label: "Chinese (简体中文)" },
     { value: "English", label: "English" },
-    { value: "Spanish", label: "Spanish (Español)" },
     { value: "French", label: "French (Français)" },
     { value: "German", label: "German (Deutsch)" },
-    { value: "Japanese", label: "Japanese (日本語)" },
-    { value: "Chinese (Simplified)", label: "Chinese (简体中文)" },
     { value: "Hindi", label: "Hindi (हिन्दी)" },
+    { value: "Japanese", label: "Japanese (日本語)" },
+    { value: "Marathi", label: "Marathi (मराठी)" },
     { value: "Portuguese", label: "Portuguese (Português)" },
     { value: "Russian", label: "Russian (Русский)" },
-    { value: "Arabic", label: "Arabic (العربية)" },
+    { value: "Sanskrit", label: "Sanskrit (संस्कृतम्)" },
+    { value: "Spanish", label: "Spanish (Español)" },
 ];
 
 // Mappings for LLM prompt
@@ -174,7 +176,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const [isDownloading, setIsDownloading] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
   const [currentDisplayedPoem, setCurrentDisplayedPoem] = useState<string | null>(poem);
-  const [targetLanguage, setTargetLanguage] = useState<string>("Spanish");
+  const [targetLanguage, setTargetLanguage] = useState<string>("Spanish"); // Default to Spanish
 
   useEffect(() => {
     setCurrentDisplayedPoem(poem); // Reset to original poem when prop changes
@@ -197,14 +199,14 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
     const themeDescription = themeDescriptions[selectedTheme] || 'a neutral background with legible text';
     const fontDescription = fontDescriptions[selectedFont] || 'a standard readable font';
-    
+
     let aspectRatioForAI: string;
     if (selectedAspectRatio === "original-fit") {
       aspectRatioForAI = "dynamic, prioritize fitting all poem text legibly without compression. Image canvas should expand as needed, prefer portrait for long poems, otherwise square.";
     } else if (selectedAspectRatio === "4:5") {
       aspectRatioForAI = "4:5 portrait aspect ratio";
     } else {
-      aspectRatioForAI = "1:1 square aspect ratio"; 
+      aspectRatioForAI = "1:1 square aspect ratio";
     }
 
     try {
@@ -280,7 +282,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const displayPoemText = currentDisplayedPoem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
 
-  const previewBaseWidth = 280; 
+  const previewBaseWidth = 280;
   let calculatedHeight: string | number = 'auto';
 
   if (selectedAspectRatio === "4:5") {
@@ -310,7 +312,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
         <Card className="max-w-4xl mx-auto shadow-xl">
           <CardHeader className="text-center">
             <Smartphone className="mx-auto h-12 w-12 text-primary mb-4" />
-            <CardTitle className="font-headline text-4xl">Instagram Preview</CardTitle>
+            <CardTitle className="font-headline text-4xl">Image Preview</CardTitle>
             <CardDescription className="text-lg">
               Customize how your poem will look. Get ready to share!
             </CardDescription>

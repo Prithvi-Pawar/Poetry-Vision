@@ -87,7 +87,7 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
         description: "Could not generate poem. Please try again.",
         variant: "destructive",
       });
-      onPoemGenerated("", topic); 
+      onPoemGenerated("", topic);
     } finally {
       setIsLoading(false);
     }
@@ -116,7 +116,7 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
                 onChange={(e) => {
                   setTopic(e.target.value);
                   if (initialTopic && e.target.value !== initialTopic) {
-                    setInitialTopic(''); 
+                    setInitialTopic('');
                   }
                 }}
                 placeholder="e.g., Solitude, Joy, Autumn Forest"
@@ -155,10 +155,10 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
                 />
                 <div className="space-y-2">
                   <label htmlFor="theme-select" className="font-medium text-foreground/80 flex items-center">
-                     <Palette className="mr-2 h-5 w-5 text-accent"/> Instagram Theme
+                     <Palette className="mr-2 h-5 w-5 text-accent"/> Image Theme
                   </label>
                   <Select onValueChange={setSelectedTheme} defaultValue="theme-default">
-                    <SelectTrigger id="theme-select" className="w-full" aria-label="Select Instagram post theme">
+                    <SelectTrigger id="theme-select" className="w-full" aria-label="Select image theme">
                       <SelectValue placeholder="Select a theme" />
                     </SelectTrigger>
                     <SelectContent>
