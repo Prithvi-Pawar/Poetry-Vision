@@ -1,6 +1,7 @@
+
 "use client";
 
-import type React from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon } from 'lucide-react';
