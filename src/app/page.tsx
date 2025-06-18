@@ -16,6 +16,7 @@ export default function Home() {
   const [selectedTheme, setSelectedTheme] = useState<string>("theme-default");
   const [selectedFont, setSelectedFont] = useState<string>("font-body"); 
   const [selectedTextColor, setSelectedTextColor] = useState<string>("#000000");
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("1:1"); // New state for aspect ratio
 
   const handlePoemGenerated = (poem: string, topic: string) => {
     setGeneratedPoem(poem);
@@ -30,26 +31,24 @@ export default function Home() {
   };
   
   // Effect to set a suitable default text color when the theme changes.
-  // The user can then override this with the color picker.
   useEffect(() => {
     const themeDefaultTextColors: Record<string, string> = {
-      'theme-default': '#333333', // Default theme (like minimalist)
-      'theme-sunset': '#FFFFFF', // Sunset Glow
-      'theme-minimalist': '#333333', // Minimalist
-      'theme-dark': '#FAFAFA', // Dark Mode
-      'theme-floral': '#2F2F2F', // Floral (dark text on assumed light pattern)
-      'theme-vintage-paper': '#5D4037', // Vintage Paper (dark sepia)
-      'theme-oceanic-calm': '#E0F7FA', // Oceanic Calm (light cyan/white)
-      'theme-galaxy-dream': '#E1BEE7', // Galaxy Dream (light lavender)
+      'theme-default': '#333333', 
+      'theme-sunset': '#FFFFFF', 
+      'theme-minimalist': '#333333', 
+      'theme-dark': '#FAFAFA', 
+      'theme-floral': '#2F2F2F', 
+      'theme-vintage-paper': '#5D4037', 
+      'theme-oceanic-calm': '#E0F7FA', 
+      'theme-galaxy-dream': '#E1BEE7', 
     };
 
     if (themeDefaultTextColors[selectedTheme]) {
       setSelectedTextColor(themeDefaultTextColors[selectedTheme]);
     } else {
-      // Fallback for unknown themes, or if a theme doesn't have a specific default
       setSelectedTextColor("#000000"); 
     }
-  }, [selectedTheme]); // Only re-run when selectedTheme changes
+  }, [selectedTheme]);
 
 
   return (
@@ -72,6 +71,8 @@ export default function Home() {
           setSelectedFont={setSelectedFont}
           selectedTextColor={selectedTextColor}
           setSelectedTextColor={setSelectedTextColor}
+          selectedAspectRatio={selectedAspectRatio}
+          setSelectedAspectRatio={setSelectedAspectRatio}
         />
       )}
       

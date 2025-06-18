@@ -4,7 +4,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon } from 'lucide-react';
+import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,6 +16,8 @@ interface InstagramPreviewSectionProps {
   setSelectedFont: (font: string) => void;
   selectedTextColor: string;
   setSelectedTextColor: (color: string) => void;
+  selectedAspectRatio: string;
+  setSelectedAspectRatio: (ratio: string) => void;
 }
 
 const fontOptions = [
@@ -43,6 +45,10 @@ const colorOptions = [
   { value: "#E1BEE7", label: "Light Lavender", style: { background: '#E1BEE7', color: '#000000'} },
 ];
 
+const aspectRatioOptions = [
+  { value: "1:1", label: "1:1 (Square)" },
+  { value: "4:5", label: "4:5 (Portrait)" },
+];
 
 const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   poem,
@@ -52,6 +58,8 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   setSelectedFont,
   selectedTextColor,
   setSelectedTextColor,
+  selectedAspectRatio,
+  setSelectedAspectRatio,
 }) => {
   const { toast } = useToast();
 
@@ -60,16 +68,21 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
       title: "Feature Coming Soon!",
       description: "Downloading poems as images will be available in a future update.",
     });
-    console.log("Attempted to download image with current settings:", { poem, poemTopic, selectedTheme, selectedFont, selectedTextColor });
+    console.log("Attempted to download image with current settings:", { poem, poemTopic, selectedTheme, selectedFont, selectedTextColor, selectedAspectRatio });
   };
 
   const displayPoem = poem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
 
-  // The selectedFont (e.g. "font-body") is applied as a Tailwind class to the div.
-  // The selectedTextColor is applied via inline style.
+  const previewBaseWidth = 280; 
+  const calculatedHeight = selectedAspectRatio === "1:1"
+    ? previewBaseWidth 
+    : (previewBaseWidth * 5) / 4; 
+
   const previewStyle = {
     color: selectedTextColor,
+    width: `${previewBaseWidth}px`,
+    height: `${calculatedHeight}px`,
   } as React.CSSProperties;
 
 
@@ -81,7 +94,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
             <Smartphone className="mx-auto h-12 w-12 text-primary mb-4" />
             <CardTitle className="font-headline text-4xl">Instagram Preview</CardTitle>
             <CardDescription className="text-lg">
-              See how your poem will look on an Instagram post. Customize and get ready to share!
+              Customize how your poem will look. Get ready to share!
             </CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-8 items-start">
@@ -126,25 +139,43 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                   </SelectContent>
                 </Select>
               </div>
+              <div>
+                <label htmlFor="aspect-ratio-select" className="font-medium text-foreground/80 mb-1 block flex items-center">
+                  <AspectRatioIcon className="mr-2 h-5 w-5 text-accent"/> Aspect Ratio
+                </label>
+                <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
+                  <SelectTrigger id="aspect-ratio-select" aria-label="Select aspect ratio">
+                    <SelectValue placeholder="Select aspect ratio" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {aspectRatioOptions.map(option => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <Button onClick={handleDownloadImage} className="w-full font-headline text-lg bg-accent hover:bg-accent/90">
                 <Download className="mr-2 h-5 w-5" />
                 Download as Image
               </Button>
             </div>
             
-            {/* Simplified Phone Mockup */}
-            <div className="mt-8 md:mt-0 flex justify-center items-center">
-              <div className="relative mx-auto border-neutral-800 bg-neutral-900 border-[8px] rounded-[2.5rem] h-[550px] w-[270px] shadow-xl">
-                <div className={`rounded-[2rem] overflow-hidden w-full h-full bg-background poem-preview-area ${selectedTheme} ${selectedFont}`} style={previewStyle}>
-                  <div className="p-1 text-xs opacity-70 break-words">{displayTopic}</div>
-                  <div className="text-sm leading-relaxed p-1 break-words">
-                    {displayPoem.split('\n').map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                  </div>
+            {/* Plain Preview Area */}
+            <div className="mt-8 md:mt-0 flex justify-center items-center p-4 bg-muted/20 rounded-lg">
+              <div
+                className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl flex flex-col`}
+                style={previewStyle}
+              >
+                <div className="text-xs opacity-70 break-words self-start w-full">{displayTopic}</div>
+                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto">
+                  {displayPoem.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
             </div>
@@ -157,3 +188,5 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 };
 
 export default InstagramPreviewSection;
+
+    
