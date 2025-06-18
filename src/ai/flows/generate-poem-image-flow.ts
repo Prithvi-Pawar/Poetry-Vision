@@ -30,12 +30,9 @@ export async function generatePoemImage(input: GeneratePoemImageInput): Promise<
   return generatePoemImageFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const promptDefinition = ai.definePrompt({
   name: 'generatePoemImagePrompt',
   input: {schema: GeneratePoemImageInputSchema},
-  // Output schema is not strictly needed here as we primarily care about the media output
-  // but it's good practice if we wanted to extract structured text.
-  // Forcing image modality implies the output structure.
   prompt: `You are a creative graphic design AI. Your task is to generate an image suitable for sharing on social media, featuring a poem.
 
 Poem Text:
@@ -64,12 +61,34 @@ const generatePoemImageFlow = ai.defineFlow(
     outputSchema: GeneratePoemImageOutputSchema,
   },
   async (input) => {
+    // Render the prompt template to get the full request structure
+    const renderedRequest = await promptDefinition.render(input);
+
+    // Extract the plain text content for image generation
+    // The image model expects a simple string prompt, not the MessageData[] structure.
+    let promptText = "";
+    if (
+      renderedRequest.messages &&
+      renderedRequest.messages.length > 0 &&
+      renderedRequest.messages[0].content &&
+      renderedRequest.messages[0].content.length > 0
+    ) {
+      // Assuming the first part of the content is the TextPart
+      const contentPart = renderedRequest.messages[0].content[0];
+      if ('text' in contentPart && typeof contentPart.text === 'string') {
+        promptText = contentPart.text;
+      }
+    }
+
+    if (!promptText) {
+      throw new Error("Failed to render prompt text for image generation.");
+    }
+
     const {media} = await ai.generate({
       model: 'googleai/gemini-2.0-flash-exp', // Ensure this model supports image generation
-      prompt: await prompt.render(input), // Render the prompt with input
+      prompt: promptText, // Pass the extracted plain text string
       config: {
-        responseModalities: ['IMAGE'], // Request only IMAGE modality
-         // Safety settings can be adjusted if needed, defaults are generally okay
+        responseModalities: ['TEXT', 'IMAGE'], // MUST provide both TEXT and IMAGE
         safetySettings: [
             { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
             { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
