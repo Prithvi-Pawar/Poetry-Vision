@@ -1,14 +1,14 @@
-# **App Name**: Verse Vision
+# **App Name**: Poetry Vision
 
 ## Core Features:
 
 - AI Poem Generation: Generates a poem based on an image description using a generative AI tool.
 - Textual Input: Allows users to enter a word, emotion, or topic as inspiration for the generated poem.
 - Poem Display & Theming: Provides an animated display of the poem after generation, with the possibility to select a background theme from a range of options (sunset, minimalist, dark, floral, etc.).
-- Instagram Preview: Displays a mockup of how the poem would look on an Instagram post, allowing users to switch font style and color.
+- Image Preview: Displays a mockup of how the poem would look on an Instagram post, allowing users to switch font style and color.
 - Downloadable Image: Enables users to download the poem as an image for easy sharing on social media platforms.
-- Trending Poems: Showcases trending/generated poems with aesthetic cards to inspire users.
-- Newsletter Subscription: Includes a newsletter signup form in the footer to allow users to receive a daily poem in their inbox.
+- Poems Starter and Ideas: Showcases best ideas for poem generation.
+- Newsletter Subscription: Includes a newsletter signup form in the footer to allow users to receive a daily poem in their inbox in text form
 
 ## Style Guidelines:
 

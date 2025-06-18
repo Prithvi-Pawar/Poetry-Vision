@@ -14,6 +14,7 @@ import { translateText } from '@/ai/flows/translate-text-flow';
 interface InstagramPreviewSectionProps {
   poem: string | null;
   poemTopic: string | null;
+  setPoemTopic: (topic: string | null) => void;
   selectedTheme: string;
   selectedFont: string;
   setSelectedFont: (font: string) => void;
@@ -147,6 +148,7 @@ const fontDescriptions: Record<string, string> = {
 const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   poem,
   poemTopic,
+  setPoemTopic,
   selectedTheme,
   selectedFont,
   setSelectedFont,
@@ -184,6 +186,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
     const themeDescription = themeDescriptions[selectedTheme] || 'a neutral background with legible text';
     const fontDescription = fontDescriptions[selectedFont] || 'a standard readable font';
+    const finalPoemTopic = poemTopic || "Untitled Poem";
 
     let aspectRatioForAI: string;
     if (selectedAspectRatio === "original-fit") {
@@ -197,7 +200,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     try {
       const result = await generatePoemImage({
         poemText: currentDisplayedPoem,
-        poemTopic: poemTopic || "Untitled Poem",
+        poemTopic: finalPoemTopic,
         theme: themeDescription,
         fontFamily: fontDescription,
         textColorHex: selectedTextColor,
@@ -208,7 +211,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
       if (result.imageDataUri) {
         const link = document.createElement('a');
         link.href = result.imageDataUri;
-        link.download = `verse_vision_${poemTopic?.replace(/\s+/g, '_') || 'poem'}.png`;
+        link.download = `verse_vision_${finalPoemTopic.replace(/\s+/g, '_') || 'poem'}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -266,7 +269,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
 
   let displayPoemText = currentDisplayedPoem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
-  const displayTopic = poemTopic || "Verse Vision";
+  const displayTopic = poemTopic || "Untitled Poem";
   
   const poemWithAuthor = authorName.trim() 
     ? `${displayPoemText}\n\n— ${authorName.trim()}` 
@@ -310,6 +313,20 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-8 items-start">
             <div className="space-y-6">
+              <div>
+                <label htmlFor="poem-topic-input" className="font-medium text-foreground/80 mb-1 block flex items-center">
+                  <TypeIcon className="mr-2 h-5 w-5 text-accent"/> Poem Topic / Title
+                </label>
+                <Input
+                  id="poem-topic-input"
+                  type="text"
+                  value={poemTopic || ''}
+                  onChange={(e) => setPoemTopic(e.target.value || null)}
+                  placeholder="e.g., Ode to the Moon"
+                  className="text-base"
+                  aria-label="Poem topic input"
+                />
+              </div>
               <div>
                 <label htmlFor="author-name-input" className="font-medium text-foreground/80 mb-1 block flex items-center">
                   <UserIcon className="mr-2 h-5 w-5 text-accent"/> Author Name (Optional)

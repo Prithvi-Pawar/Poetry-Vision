@@ -17,12 +17,12 @@ export default function Home() {
   // Image Preview State
   const [selectedTheme, setSelectedTheme] = useState<string>("theme-soft-gradient-pastels");
   const [selectedFont, setSelectedFont] = useState<string>("font-body");
-  const [selectedTextColor, setSelectedTextColor] = useState<string>("#4A4A4A"); // Default for soft gradient
+  const [selectedTextColor, setSelectedTextColor] = useState<string>("#4A4A4A");
   const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original-fit");
 
   const handlePoemGenerated = (poem: string, topic: string) => {
     setGeneratedPoem(poem);
-    setPoemTopic(topic);
+    setPoemTopic(topic || null); // Ensure topic is null if empty string
   };
 
   const scrollToGenerator = () => {
@@ -63,10 +63,11 @@ export default function Home() {
         setInitialTopic={setGeneratorInputValue}
       />
 
-      {(generatedPoem || poemTopic) && (
+      {(generatedPoem || poemTopic !== null) && (
          <InstagramPreviewSection
           poem={generatedPoem}
-          poemTopic={poemTopic || "Verse Vision Poem"}
+          poemTopic={poemTopic}
+          setPoemTopic={setPoemTopic}
           selectedTheme={selectedTheme}
           selectedFont={selectedFont}
           setSelectedFont={setSelectedFont}
