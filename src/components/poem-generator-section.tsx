@@ -1,8 +1,7 @@
 
 "use client";
 
-import type React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,12 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 import { generatePoemFromText, type GeneratePoemFromTextInput } from '@/ai/flows/generate-poem-from-text';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
 interface PoemGeneratorSectionProps {
   id: string;
   onPoemGenerated: (poem: string, topic: string) => void;
   setSelectedTheme: (theme: string) => void;
   currentPoem: string | null;
+  initialTopic: string;
+  setInitialTopic: (topic: string) => void;
 }
 
 const themes = [
@@ -31,10 +31,18 @@ const themes = [
   { value: "theme-galaxy-dream", label: "Galaxy Dream" },
 ];
 
-const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem }) => {
-  const [topic, setTopic] = useState('');
+const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem, initialTopic, setInitialTopic }) => {
+  const [topic, setTopic] = useState(initialTopic || '');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (initialTopic) {
+      setTopic(initialTopic);
+      // Optionally clear the initialTopic in the parent component if it's a one-time set
+      // setInitialTopic(''); 
+    }
+  }, [initialTopic]);
 
   const handleGeneratePoem = async () => {
     if (!topic.trim()) {
@@ -87,7 +95,12 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
                 id="topic-input"
                 type="text"
                 value={topic}
-                onChange={(e) => setTopic(e.target.value)}
+                onChange={(e) => {
+                  setTopic(e.target.value);
+                  if (initialTopic && e.target.value !== initialTopic) {
+                    setInitialTopic(''); // Clear initial topic if user types something different
+                  }
+                }}
                 placeholder="e.g., Solitude, Joy, Autumn Forest"
                 className="text-base"
                 aria-label="Poem inspiration input"

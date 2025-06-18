@@ -1,12 +1,13 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon } from 'lucide-react';
+import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { generatePoemImage } from '@/ai/flows/generate-poem-image-flow'; // Will be created
 
 interface InstagramPreviewSectionProps {
   poem: string | null;
@@ -30,25 +31,47 @@ const fontOptions = [
 ];
 
 const colorOptions = [
-  { value: "#FFFFFF", label: "White", style: { background: '#FFFFFF', color: '#000000'} },
-  { value: "#000000", label: "Black", style: { background: '#000000', color: '#FFFFFF'}  },
-  { value: "#333333", label: "Dark Grey", style: { background: '#333333', color: '#FFFFFF'}  },
-  { value: "#A098D3", label: "Primary Purple", style: { background: '#A098D3', color: '#FFFFFF'}  },
-  { value: "#D398A0", label: "Accent Pink", style: { background: '#D398A0', color: '#FFFFFF'}  },
-  { value: "#0D47A1", label: "Deep Blue", style: { background: '#0D47A1', color: '#FFFFFF'}  },
-  { value: "#2E7D32", label: "Forest Green", style: { background: '#2E7D32', color: '#FFFFFF'}  },
-  { value: "#F57C00", label: "Warm Orange", style: { background: '#F57C00', color: '#FFFFFF'}  },
-  { value: "#D4AF37", label: "Soft Gold", style: { background: '#D4AF37', color: '#000000'}  },
-  { value: "#36454F", label: "Charcoal", style: { background: '#36454F', color: '#FFFFFF'}  },
-  { value: "#5D4037", label: "Sepia Brown", style: { background: '#5D4037', color: '#FFFFFF'} },
-  { value: "#E0F7FA", label: "Light Cyan", style: { background: '#E0F7FA', color: '#000000'} },
-  { value: "#E1BEE7", label: "Light Lavender", style: { background: '#E1BEE7', color: '#000000'} },
+  { value: "#FFFFFF", label: "White" },
+  { value: "#000000", label: "Black" },
+  { value: "#333333", label: "Dark Grey" },
+  { value: "#A098D3", label: "Primary Purple" },
+  { value: "#D398A0", label: "Accent Pink" },
+  { value: "#0D47A1", label: "Deep Blue" },
+  { value: "#2E7D32", label: "Forest Green" },
+  { value: "#F57C00", label: "Warm Orange" },
+  { value: "#D4AF37", label: "Soft Gold" },
+  { value: "#36454F", label: "Charcoal" },
+  { value: "#5D4037", label: "Sepia Brown" },
+  { value: "#E0F7FA", label: "Light Cyan" },
+  { value: "#E1BEE7", label: "Light Lavender" },
 ];
 
 const aspectRatioOptions = [
   { value: "1:1", label: "1:1 (Square)" },
   { value: "4:5", label: "4:5 (Portrait)" },
 ];
+
+// Mappings for LLM prompt
+const themeDescriptions: Record<string, string> = {
+  'theme-default': 'a clean, default light background with high contrast text',
+  'theme-sunset': 'a vibrant sunset with warm oranges, yellows, and reds, text color should be contrasting (e.g., white or very dark)',
+  'theme-minimalist': 'a minimalist, clean light grey or white background with dark, crisp text',
+  'theme-dark': 'a dark, elegant background (e.g., deep space, night sky, or dark charcoal) with light-colored, legible text',
+  'theme-floral': 'a background with a subtle and elegant floral pattern, ensure text is clearly readable over it',
+  'theme-vintage-paper': 'a textured vintage paper or parchment background, text should look like ink on old paper',
+  'theme-oceanic-calm': 'a calm oceanic scene with blues, teals, and sandy tones, text should evoke serenity, possibly light colored',
+  'theme-galaxy-dream': 'a dreamy galaxy or nebula background with purples, deep blues, and star-like speckles, text should be light and ethereal',
+};
+
+const fontDescriptions: Record<string, string> = {
+  "font-body": "a classic, readable serif font like Alegreya",
+  "font-headline": "a clean, modern sans-serif font like Belleza",
+  "font-code": "a typewriter-style monospace font like Courier Prime",
+  "font-playfair": "an elegant and slightly formal serif font like Playfair Display",
+  "font-lato": "a clear and friendly sans-serif font like Lato",
+  "font-dancing": "a flowing, cursive script font like Dancing Script",
+};
+
 
 const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   poem,
@@ -62,22 +85,69 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   setSelectedAspectRatio,
 }) => {
   const { toast } = useToast();
+  const [isDownloading, setIsDownloading] = useState(false);
 
-  const handleDownloadImage = () => {
+  const handleDownloadImage = async () => {
+    if (!poem) {
+      toast({
+        title: "No Poem to Download",
+        description: "Please generate a poem first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsDownloading(true);
     toast({
-      title: "Feature Coming Soon!",
-      description: "Downloading poems as images will be available in a future update.",
+      title: "Generating Image...",
+      description: "Your poetic image is being crafted. This may take a moment.",
     });
-    console.log("Attempted to download image with current settings:", { poem, poemTopic, selectedTheme, selectedFont, selectedTextColor, selectedAspectRatio });
+
+    const themeDescription = themeDescriptions[selectedTheme] || 'a neutral background with legible text';
+    const fontDescription = fontDescriptions[selectedFont] || 'a standard readable font';
+
+    try {
+      const result = await generatePoemImage({
+        poemText: poem,
+        poemTopic: poemTopic || "Untitled Poem",
+        theme: themeDescription,
+        fontFamily: fontDescription,
+        textColorHex: selectedTextColor,
+        aspectRatio: selectedAspectRatio,
+      });
+
+      if (result.imageDataUri) {
+        const link = document.createElement('a');
+        link.href = result.imageDataUri;
+        link.download = `verse_vision_${poemTopic?.replace(/\s+/g, '_') || 'poem'}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast({
+          title: "Image Downloaded!",
+          description: "Your poem image has been saved.",
+        });
+      } else {
+        throw new Error("Image data URI not found in response.");
+      }
+    } catch (error) {
+      console.error("Error generating or downloading image:", error);
+      toast({
+        title: "Download Failed",
+        description: "Could not generate or download the image. The AI might be busy or the request too complex. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const displayPoem = poem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
 
-  const previewBaseWidth = 280; 
+  const previewBaseWidth = 280;
   const calculatedHeight = selectedAspectRatio === "1:1"
-    ? previewBaseWidth 
-    : (previewBaseWidth * 5) / 4; 
+    ? previewBaseWidth
+    : (previewBaseWidth * 5) / 4;
 
   const previewStyle = {
     color: selectedTextColor,
@@ -156,13 +226,21 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                   </SelectContent>
                 </Select>
               </div>
-              <Button onClick={handleDownloadImage} className="w-full font-headline text-lg bg-accent hover:bg-accent/90">
-                <Download className="mr-2 h-5 w-5" />
-                Download as Image
+              <Button onClick={handleDownloadImage} disabled={isDownloading} className="w-full font-headline text-lg bg-accent hover:bg-accent/90">
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    <Download className="mr-2 h-5 w-5" />
+                    Download as Image
+                  </>
+                )}
               </Button>
             </div>
-            
-            {/* Plain Preview Area */}
+
             <div className="mt-8 md:mt-0 flex justify-center items-center p-4 bg-muted/20 rounded-lg">
               <div
                 className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl flex flex-col`}

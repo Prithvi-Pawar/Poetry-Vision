@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react'; // Corrected React import
+import React from 'react';
 import PoemCard from "./poem-card";
 import { Button } from '@/components/ui/button';
 import { Sparkles, HelpCircle } from 'lucide-react';
@@ -28,26 +28,45 @@ const trendingPoemsData = [
   },
 ];
 
-const TrendingPoemsSection: React.FC = () => {
+interface TrendingPoemsSectionProps {
+  setGeneratorInputValue: (value: string) => void;
+  scrollToGenerator: () => void;
+}
+
+const TrendingPoemsSection: React.FC<TrendingPoemsSectionProps> = ({ setGeneratorInputValue, scrollToGenerator }) => {
   const { toast } = useToast();
   const [promptIndex, setPromptIndex] = React.useState(0);
 
   const prompts = [
-    "Try writing about 'a memory from childhood'.",
-    "What if you explored the feeling of 'nostalgia'?",
-    "Consider a poem about 'the stars on a clear night'.",
-    "How about the topic 'a hidden path'?",
-    "Write about 'the sound of rain'.",
+    "a memory from childhood",
+    "the feeling of nostalgia",
+    "the stars on a clear night",
+    "a hidden path",
+    "the sound of rain",
+    "a forgotten dream",
+    "the changing seasons",
+    "a quiet moment of reflection",
   ];
 
   const handleFeelingStuck = () => {
-    // Cycle through prompts
     const nextPromptIndex = (promptIndex + 1) % prompts.length;
     setPromptIndex(nextPromptIndex);
+    const selectedPrompt = prompts[nextPromptIndex];
     toast({
-      title: "Feeling Stuck? Try this!",
-      description: prompts[nextPromptIndex], // Use the next prompt
+      title: "New Prompt!",
+      description: `Try writing about: "${selectedPrompt}"`,
       duration: 7000,
+    });
+    setGeneratorInputValue(selectedPrompt);
+    scrollToGenerator();
+  };
+
+  const handleViewPoemIdea = (title: string) => {
+    setGeneratorInputValue(title);
+    scrollToGenerator();
+    toast({
+      title: "Idea Loaded!",
+      description: `"${title}" has been added to the generator. Try generating a poem!`,
     });
   };
 
@@ -58,7 +77,7 @@ const TrendingPoemsSection: React.FC = () => {
           <Sparkles className="mx-auto h-12 w-12 text-primary mb-4" />
           <h2 className="font-headline text-4xl md:text-5xl mb-4">Trending Poem Ideas</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get inspired by these popular themes and verses crafted by others.
+            Get inspired by these popular themes and verses. Click to try them in the generator!
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -69,7 +88,7 @@ const TrendingPoemsSection: React.FC = () => {
               poemSnippet={poem.poemSnippet}
               imageUrl={poem.imageUrl}
               imageHint={poem.imageHint}
-              onViewPoem={() => toast({ title: "Coming Soon", description: "Viewing full trending poems will be available later!"})}
+              onViewPoem={() => handleViewPoemIdea(poem.title)}
             />
           ))}
         </div>
