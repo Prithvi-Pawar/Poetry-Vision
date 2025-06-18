@@ -169,7 +169,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 style={previewStyle}
               >
                 <div className="text-xs opacity-70 break-words self-start w-full">{displayTopic}</div>
-                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto">
+                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0">
                   {displayPoem.split('\n').map((line, index) => (
                     <React.Fragment key={index}>
                       {line}
@@ -188,5 +188,3 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 };
 
 export default InstagramPreviewSection;
-
-    
