@@ -29,6 +29,26 @@ const themes = [
   { value: "theme-vintage-paper", label: "Vintage Paper" },
   { value: "theme-oceanic-calm", label: "Oceanic Calm" },
   { value: "theme-galaxy-dream", label: "Galaxy Dream" },
+  { value: "theme-forest-mist", label: "Forest Mist" },
+  { value: "theme-desert-dusk", label: "Desert Dusk" },
+  { value: "theme-mountain-peak", label: "Mountain Peak" },
+  { value: "theme-cherry-blossom", label: "Cherry Blossom" },
+  { value: "theme-aurora-borealis", label: "Aurora Borealis" },
+  { value: "theme-starry-night", label: "Starry Night" },
+  { value: "theme-tropical-beach", label: "Tropical Beach" },
+  { value: "theme-urban-grit", label: "Urban Grit" },
+  { value: "theme-pastel-dream", label: "Pastel Dream" },
+  { value: "theme-monochrome-lines", label: "Monochrome Lines" },
+  { value: "theme-watercolor-splash", label: "Watercolor Splash" },
+  { value: "theme-geometric-patterns", label: "Geometric Patterns" },
+  { value: "theme-autumn-leaves", label: "Autumn Leaves" },
+  { value: "theme-winter-frost", label: "Winter Frost" },
+  { value: "theme-spring-meadow", label: "Spring Meadow" },
+  { value: "theme-cosmic-dust", label: "Cosmic Dust" },
+  { value: "theme-marble-elegance", label: "Marble Elegance" },
+  { value: "theme-woodgrain-rustic", label: "Woodgrain Rustic" },
+  { value: "theme-retro-vibes", label: "Retro Vibes" },
+  { value: "theme-gothic-romance", label: "Gothic Romance" },
 ];
 
 const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem, initialTopic, setInitialTopic }) => {
@@ -39,8 +59,6 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
   useEffect(() => {
     if (initialTopic) {
       setTopic(initialTopic);
-      // Optionally clear the initialTopic in the parent component if it's a one-time set
-      // setInitialTopic(''); 
     }
   }, [initialTopic]);
 
@@ -69,7 +87,7 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
         description: "Could not generate poem. Please try again.",
         variant: "destructive",
       });
-      onPoemGenerated("", topic); // Clear previous poem on error
+      onPoemGenerated("", topic); 
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +116,7 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
                 onChange={(e) => {
                   setTopic(e.target.value);
                   if (initialTopic && e.target.value !== initialTopic) {
-                    setInitialTopic(''); // Clear initial topic if user types something different
+                    setInitialTopic(''); 
                   }
                 }}
                 placeholder="e.g., Solitude, Joy, Autumn Forest"
