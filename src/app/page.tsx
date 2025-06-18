@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import HeroSection from '@/components/hero-section';
 import PoemGeneratorSection from '@/components/poem-generator-section';
 import InstagramPreviewSection from '@/components/instagram-preview-section';
-import TrendingPoemsSection from '@/components/trending-poems-section';
+import TextSuggestionsSection from '@/components/text-suggestions-section'; // Changed import
 import FooterSection from '@/components/footer-section';
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedTheme, setSelectedTheme] = useState<string>("theme-default");
   const [selectedFont, setSelectedFont] = useState<string>("font-body");
   const [selectedTextColor, setSelectedTextColor] = useState<string>("#000000");
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("1:1");
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original"); // Default to original
 
   const handlePoemGenerated = (poem: string, topic: string) => {
     setGeneratedPoem(poem);
@@ -47,7 +47,7 @@ export default function Home() {
     if (themeDefaultTextColors[selectedTheme]) {
       setSelectedTextColor(themeDefaultTextColors[selectedTheme]);
     } else {
-      setSelectedTextColor("#000000");
+      setSelectedTextColor("#000000"); // Fallback for any new themes not in map
     }
   }, [selectedTheme]);
 
@@ -78,7 +78,7 @@ export default function Home() {
         />
       )}
 
-      <TrendingPoemsSection
+      <TextSuggestionsSection // Changed component
         setGeneratorInputValue={setGeneratorInputValue}
         scrollToGenerator={scrollToGenerator}
       />

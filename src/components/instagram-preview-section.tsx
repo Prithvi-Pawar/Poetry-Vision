@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Download, Smartphone, Type as TypeIcon, Palette as PaletteIcon, Crop as AspectRatioIcon, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { generatePoemImage } from '@/ai/flows/generate-poem-image-flow'; // Will be created
+import { generatePoemImage } from '@/ai/flows/generate-poem-image-flow';
 
 interface InstagramPreviewSectionProps {
   poem: string | null;
@@ -47,7 +47,7 @@ const colorOptions = [
 ];
 
 const aspectRatioOptions = [
-  { value: "1:1", label: "1:1 (Square)" },
+  { value: "original", label: "Original Size (Square)" },
   { value: "4:5", label: "4:5 (Portrait)" },
 ];
 
@@ -104,6 +104,8 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
     const themeDescription = themeDescriptions[selectedTheme] || 'a neutral background with legible text';
     const fontDescription = fontDescriptions[selectedFont] || 'a standard readable font';
+    const aspectRatioForAI = selectedAspectRatio === "original" ? "1:1" : selectedAspectRatio;
+
 
     try {
       const result = await generatePoemImage({
@@ -112,7 +114,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
         theme: themeDescription,
         fontFamily: fontDescription,
         textColorHex: selectedTextColor,
-        aspectRatio: selectedAspectRatio,
+        aspectRatio: aspectRatioForAI,
       });
 
       if (result.imageDataUri) {
@@ -144,10 +146,10 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const displayPoem = poem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
 
-  const previewBaseWidth = 280;
-  const calculatedHeight = selectedAspectRatio === "1:1"
+  const previewBaseWidth = 280; // pixels
+  const calculatedHeight = selectedAspectRatio === "original"
     ? previewBaseWidth
-    : (previewBaseWidth * 5) / 4;
+    : (previewBaseWidth * 5) / 4; // For 4:5 aspect ratio
 
   const previewStyle = {
     color: selectedTextColor,
@@ -246,8 +248,8 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl flex flex-col`}
                 style={previewStyle}
               >
-                <div className="text-xs opacity-70 break-words self-start w-full">{displayTopic}</div>
-                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0">
+                <div className="text-xs opacity-70 break-words self-start w-full p-1">{displayTopic}</div>
+                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
                   {displayPoem.split('\n').map((line, index) => (
                     <React.Fragment key={index}>
                       {line}

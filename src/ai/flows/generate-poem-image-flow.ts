@@ -17,7 +17,7 @@ const GeneratePoemImageInputSchema = z.object({
   theme: z.string().describe('A description of the visual theme for the image background (e.g., "a vibrant sunset with warm oranges, yellows, and reds").'),
   fontFamily: z.string().describe('A description of the desired font style (e.g., "a classic, readable serif font like Alegreya").'),
   textColorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color code").describe('The hex color code for the poem text (e.g., "#FFFFFF").'),
-  aspectRatio: z.string().describe('The desired aspect ratio for the image (e.g., "1:1" for square, "4:5" for portrait).'),
+  aspectRatio: z.string().describe('The desired aspect ratio for the image (e.g., "1:1" for square/original, "4:5" for portrait).'),
 });
 export type GeneratePoemImageInput = z.infer<typeof GeneratePoemImageInputSchema>;
 
