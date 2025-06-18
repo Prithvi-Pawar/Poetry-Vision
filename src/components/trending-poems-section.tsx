@@ -1,6 +1,7 @@
+
 "use client";
 
-import type React from 'react';
+import React from 'react'; // Corrected React import
 import PoemCard from "./poem-card";
 import { Button } from '@/components/ui/button';
 import { Sparkles, HelpCircle } from 'lucide-react';
@@ -10,38 +11,42 @@ const trendingPoemsData = [
   {
     title: "City at Dusk",
     poemSnippet: "Neon hums a lullaby,\nConcrete dreams beneath the sky...",
-    imageUrl: "https://placehold.co/600x400/A098D3/F4F2F9?text=City+Dusk",
+    imageUrl: "https://placehold.co/600x400.png",
     imageHint: "city dusk"
   },
   {
     title: "Whispers of the Forest",
     poemSnippet: "Ancient trees in emerald cloak,\nSunlight spills, a gentle stroke...",
-    imageUrl: "https://placehold.co/600x400/D398A0/F4F2F9?text=Forest+Whispers",
+    imageUrl: "https://placehold.co/600x400.png",
     imageHint: "forest nature"
   },
   {
     title: "Ocean's Heartbeat",
     poemSnippet: "Waves crash soft on sandy shore,\nSecrets kept forevermore...",
-    imageUrl: "https://placehold.co/600x400/A0D398/F4F2F9?text=Ocean+Heartbeat",
+    imageUrl: "https://placehold.co/600x400.png",
     imageHint: "ocean waves"
   },
 ];
 
 const TrendingPoemsSection: React.FC = () => {
   const { toast } = useToast();
+  const [promptIndex, setPromptIndex] = React.useState(0);
+
+  const prompts = [
+    "Try writing about 'a memory from childhood'.",
+    "What if you explored the feeling of 'nostalgia'?",
+    "Consider a poem about 'the stars on a clear night'.",
+    "How about the topic 'a hidden path'?",
+    "Write about 'the sound of rain'.",
+  ];
 
   const handleFeelingStuck = () => {
-    const prompts = [
-      "Try writing about 'a memory from childhood'.",
-      "What if you explored the feeling of 'nostalgia'?",
-      "Consider a poem about 'the stars on a clear night'.",
-      "How about the topic 'a hidden path'?",
-      "Write about 'the sound of rain'.",
-    ];
-    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+    // Cycle through prompts
+    const nextPromptIndex = (promptIndex + 1) % prompts.length;
+    setPromptIndex(nextPromptIndex);
     toast({
       title: "Feeling Stuck? Try this!",
-      description: randomPrompt,
+      description: prompts[nextPromptIndex], // Use the next prompt
       duration: 7000,
     });
   };

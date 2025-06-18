@@ -132,13 +132,9 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
               </Button>
             </div>
             
-            {/* Phone Mockup */}
+            {/* Simplified Phone Mockup */}
             <div className="mt-8 md:mt-0 flex justify-center items-center">
-              <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[10px] rounded-[2.5rem] h-[550px] w-[270px] shadow-xl">
-                <div className="w-[100px] h-[12px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
-                <div className="h-[32px] w-[3px] bg-gray-800 absolute -left-[13px] top-[60px] rounded-l-lg"></div>
-                <div className="h-[32px] w-[3px] bg-gray-800 absolute -left-[13px] top-[110px] rounded-l-lg"></div>
-                <div className="h-[46px] w-[3px] bg-gray-800 absolute -right-[13px] top-[90px] rounded-r-lg"></div>
+              <div className="relative mx-auto border-neutral-800 bg-neutral-900 border-[8px] rounded-[2.5rem] h-[550px] w-[270px] shadow-xl">
                 <div className={`rounded-[2rem] overflow-hidden w-full h-full bg-background poem-preview-area ${selectedTheme} ${selectedFont}`} style={previewStyle}>
                   <div className="p-1 text-xs opacity-70 break-words">{displayTopic}</div>
                   <div className="text-sm leading-relaxed p-1 break-words">
