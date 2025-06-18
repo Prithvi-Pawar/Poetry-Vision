@@ -19,17 +19,28 @@ interface InstagramPreviewSectionProps {
 }
 
 const fontOptions = [
-  { value: "font-body", label: "Alegreya (Serif)" }, // Mapped to Alegreya
-  { value: "font-headline", label: "Belleza (Sans-Serif)" }, // Mapped to Belleza
-  { value: "font-code", label: "Courier Prime (Monospace)" }, // Mapped to Courier Prime
+  { value: "font-body", label: "Alegreya (Serif)" },
+  { value: "font-headline", label: "Belleza (Sans-Serif)" },
+  { value: "font-code", label: "Courier Prime (Monospace)" },
+  { value: "font-playfair", label: "Playfair Display (Serif)" },
+  { value: "font-lato", label: "Lato (Sans-Serif)" },
+  { value: "font-dancing", label: "Dancing Script (Script)" },
 ];
 
 const colorOptions = [
   { value: "#FFFFFF", label: "White", style: { background: '#FFFFFF', color: '#000000'} },
   { value: "#000000", label: "Black", style: { background: '#000000', color: '#FFFFFF'}  },
+  { value: "#333333", label: "Dark Grey", style: { background: '#333333', color: '#FFFFFF'}  },
   { value: "#A098D3", label: "Primary Purple", style: { background: '#A098D3', color: '#FFFFFF'}  },
   { value: "#D398A0", label: "Accent Pink", style: { background: '#D398A0', color: '#FFFFFF'}  },
-  { value: "#333333", label: "Dark Grey", style: { background: '#333333', color: '#FFFFFF'}  },
+  { value: "#0D47A1", label: "Deep Blue", style: { background: '#0D47A1', color: '#FFFFFF'}  },
+  { value: "#2E7D32", label: "Forest Green", style: { background: '#2E7D32', color: '#FFFFFF'}  },
+  { value: "#F57C00", label: "Warm Orange", style: { background: '#F57C00', color: '#FFFFFF'}  },
+  { value: "#D4AF37", label: "Soft Gold", style: { background: '#D4AF37', color: '#000000'}  },
+  { value: "#36454F", label: "Charcoal", style: { background: '#36454F', color: '#FFFFFF'}  },
+  { value: "#5D4037", label: "Sepia Brown", style: { background: '#5D4037', color: '#FFFFFF'} },
+  { value: "#E0F7FA", label: "Light Cyan", style: { background: '#E0F7FA', color: '#000000'} },
+  { value: "#E1BEE7", label: "Light Lavender", style: { background: '#E1BEE7', color: '#000000'} },
 ];
 
 
@@ -45,7 +56,6 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const { toast } = useToast();
 
   const handleDownloadImage = () => {
-    // Placeholder for actual image download functionality
     toast({
       title: "Feature Coming Soon!",
       description: "Downloading poems as images will be available in a future update.",
@@ -56,8 +66,9 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const displayPoem = poem || "Your beautiful poem will appear here once generated.\n\nTry different themes and styles!";
   const displayTopic = poemTopic || "Verse Vision";
 
+  // The selectedFont (e.g. "font-body") is applied as a Tailwind class to the div.
+  // The selectedTextColor is applied via inline style.
   const previewStyle = {
-    fontFamily: selectedFont === 'font-body' ? 'Alegreya, serif' : selectedFont === 'font-headline' ? 'Belleza, sans-serif' : 'Courier Prime, monospace',
     color: selectedTextColor,
   } as React.CSSProperties;
 
@@ -98,7 +109,10 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 </label>
                 <Select value={selectedTextColor} onValueChange={setSelectedTextColor}>
                   <SelectTrigger id="color-select" aria-label="Select text color">
-                    <SelectValue placeholder="Select color" />
+                     <div className="flex items-center">
+                       <span className="w-4 h-4 rounded-full mr-2 border border-border" style={{backgroundColor: selectedTextColor}}></span>
+                       {colorOptions.find(c => c.value === selectedTextColor)?.label || selectedTextColor}
+                    </div>
                   </SelectTrigger>
                   <SelectContent>
                     {colorOptions.map(color => (
@@ -125,7 +139,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 <div className="h-[32px] w-[3px] bg-gray-800 absolute -left-[13px] top-[60px] rounded-l-lg"></div>
                 <div className="h-[32px] w-[3px] bg-gray-800 absolute -left-[13px] top-[110px] rounded-l-lg"></div>
                 <div className="h-[46px] w-[3px] bg-gray-800 absolute -right-[13px] top-[90px] rounded-r-lg"></div>
-                <div className={`rounded-[2rem] overflow-hidden w-full h-full bg-background poem-preview-area ${selectedTheme}`} style={previewStyle}>
+                <div className={`rounded-[2rem] overflow-hidden w-full h-full bg-background poem-preview-area ${selectedTheme} ${selectedFont}`} style={previewStyle}>
                   <div className="p-1 text-xs opacity-70 break-words">{displayTopic}</div>
                   <div className="text-sm leading-relaxed p-1 break-words">
                     {displayPoem.split('\n').map((line, index) => (

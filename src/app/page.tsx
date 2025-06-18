@@ -1,7 +1,7 @@
+
 "use client";
 
-import type React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Ensured React is imported for JSX
 import HeroSection from '@/components/hero-section';
 import PoemGeneratorSection from '@/components/poem-generator-section';
 import InstagramPreviewSection from '@/components/instagram-preview-section';
@@ -13,9 +13,9 @@ export default function Home() {
   const [poemTopic, setPoemTopic] = useState<string | null>(null);
   
   // Instagram Preview State
-  const [selectedTheme, setSelectedTheme] = useState<string>("theme-default"); // e.g., 'theme-sunset', 'theme-minimalist'
-  const [selectedFont, setSelectedFont] = useState<string>("font-body"); // Tailwind font class
-  const [selectedTextColor, setSelectedTextColor] = useState<string>("#000000"); // Hex color
+  const [selectedTheme, setSelectedTheme] = useState<string>("theme-default");
+  const [selectedFont, setSelectedFont] = useState<string>("font-body"); 
+  const [selectedTextColor, setSelectedTextColor] = useState<string>("#000000");
 
   const handlePoemGenerated = (poem: string, topic: string) => {
     setGeneratedPoem(poem);
@@ -29,14 +29,27 @@ export default function Home() {
     }
   };
   
-  // Effect to handle theme affecting text color for preview
+  // Effect to set a suitable default text color when the theme changes.
+  // The user can then override this with the color picker.
   useEffect(() => {
-    if (selectedTheme === 'theme-sunset' || selectedTheme === 'theme-dark') {
-      if(selectedTextColor === "#000000" || selectedTextColor === "#333333") setSelectedTextColor("#FFFFFF");
-    } else if (selectedTheme === 'theme-minimalist' || selectedTheme === 'theme-floral' || selectedTheme === 'theme-default') {
-       if(selectedTextColor === "#FFFFFF") setSelectedTextColor("#000000");
+    const themeDefaultTextColors: Record<string, string> = {
+      'theme-default': '#333333', // Default theme (like minimalist)
+      'theme-sunset': '#FFFFFF', // Sunset Glow
+      'theme-minimalist': '#333333', // Minimalist
+      'theme-dark': '#FAFAFA', // Dark Mode
+      'theme-floral': '#2F2F2F', // Floral (dark text on assumed light pattern)
+      'theme-vintage-paper': '#5D4037', // Vintage Paper (dark sepia)
+      'theme-oceanic-calm': '#E0F7FA', // Oceanic Calm (light cyan/white)
+      'theme-galaxy-dream': '#E1BEE7', // Galaxy Dream (light lavender)
+    };
+
+    if (themeDefaultTextColors[selectedTheme]) {
+      setSelectedTextColor(themeDefaultTextColors[selectedTheme]);
+    } else {
+      // Fallback for unknown themes, or if a theme doesn't have a specific default
+      setSelectedTextColor("#000000"); 
     }
-  }, [selectedTheme, selectedTextColor]);
+  }, [selectedTheme]); // Only re-run when selectedTheme changes
 
 
   return (

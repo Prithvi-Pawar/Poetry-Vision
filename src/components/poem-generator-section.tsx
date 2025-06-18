@@ -1,3 +1,4 @@
+
 "use client";
 
 import type React from 'react';
@@ -21,10 +22,13 @@ interface PoemGeneratorSectionProps {
 
 const themes = [
   { value: "theme-default", label: "Default" },
-  { value: "theme-sunset", label: "Sunset" },
   { value: "theme-minimalist", label: "Minimalist" },
-  { value: "theme-dark", label: "Dark" },
+  { value: "theme-dark", label: "Dark Mode" },
+  { value: "theme-sunset", label: "Sunset Glow" },
   { value: "theme-floral", label: "Floral" },
+  { value: "theme-vintage-paper", label: "Vintage Paper" },
+  { value: "theme-oceanic-calm", label: "Oceanic Calm" },
+  { value: "theme-galaxy-dream", label: "Galaxy Dream" },
 ];
 
 const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem }) => {

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -150,12 +151,16 @@ h1, h2, h3, h4, h5, h6 {
 /* Styles for poem preview themes */
 .poem-preview-area {
   @apply p-6 rounded-lg shadow-md transition-all duration-300 ease-in-out;
-  font-family: var(--font-family-preview, 'Alegreya', serif);
-  color: var(--font-color-preview, hsl(var(--foreground)));
+  /* font-family is applied by Tailwind class e.g. .font-body, .font-playfair */
+  color: var(--font-color-preview, hsl(var(--foreground))); /* Fallback color */
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
+.theme-default {
+  background: hsl(var(--background));
+  --font-color-preview: hsl(var(--foreground));
+}
 .theme-sunset {
   background: linear-gradient(135deg, #FFB74D 0%, #FF8A65 50%, #E64A19 100%);
   --font-color-preview: #FFFFFF;
@@ -170,8 +175,23 @@ h1, h2, h3, h4, h5, h6 {
   --font-color-preview: #FAFAFA;
 }
 .theme-floral {
-  background-image: url('https://placehold.co/600x400/A098D3/F4F2F9?text=Floral+Pattern'); /* Placeholder for floral pattern */
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for floral pattern */
   background-size: cover;
   background-position: center;
-  --font-color-preview: #212121; /* Dark text for light floral */
+  --font-color-preview: #2F2F2F; /* Dark text for light floral */
+}
+.theme-vintage-paper {
+  background-color: #f5e8c7; /* Creamy paper */
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 20px 20px; /* Subtle grid for texture */
+  --font-color-preview: #5D4037; /* Dark sepia/brown */
+  border: 1px solid #D2B48C; /* Tan border */
+}
+.theme-oceanic-calm {
+  background: linear-gradient(to right top, #6DD5FA, #2980B9, #0c2e4e); /* Blue gradient */
+  --font-color-preview: #E0F7FA; /* Light cyan/white */
+}
+.theme-galaxy-dream {
+  background: linear-gradient(135deg, #23074d 0%, #cc5333 100%); /* Dark purple to orange */
+  --font-color-preview: #E1BEE7; /* Light lavender */
 }
