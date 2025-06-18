@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import HeroSection from '@/components/hero-section';
 import PoemGeneratorSection from '@/components/poem-generator-section';
 import InstagramPreviewSection from '@/components/instagram-preview-section';
-import TextSuggestionsSection from '@/components/text-suggestions-section'; // Changed import
+import TextSuggestionsSection from '@/components/text-suggestions-section';
 import FooterSection from '@/components/footer-section';
 
 export default function Home() {
@@ -16,8 +16,8 @@ export default function Home() {
   // Instagram Preview State
   const [selectedTheme, setSelectedTheme] = useState<string>("theme-default");
   const [selectedFont, setSelectedFont] = useState<string>("font-body");
-  const [selectedTextColor, setSelectedTextColor] = useState<string>("#000000");
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original"); // Default to original
+  const [selectedTextColor, setSelectedTextColor] = useState<string>("#333333"); // Default to a common text color
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState<string>("original-fit"); // Default to fit text
 
   const handlePoemGenerated = (poem: string, topic: string) => {
     setGeneratedPoem(poem);
@@ -47,7 +47,7 @@ export default function Home() {
     if (themeDefaultTextColors[selectedTheme]) {
       setSelectedTextColor(themeDefaultTextColors[selectedTheme]);
     } else {
-      setSelectedTextColor("#000000"); // Fallback for any new themes not in map
+      setSelectedTextColor("#333333"); // Fallback for any new themes not in map
     }
   }, [selectedTheme]);
 
@@ -78,7 +78,7 @@ export default function Home() {
         />
       )}
 
-      <TextSuggestionsSection // Changed component
+      <TextSuggestionsSection
         setGeneratorInputValue={setGeneratorInputValue}
         scrollToGenerator={scrollToGenerator}
       />

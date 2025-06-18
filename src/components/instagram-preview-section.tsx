@@ -47,7 +47,7 @@ const colorOptions = [
 ];
 
 const aspectRatioOptions = [
-  { value: "original", label: "Original Size (Square)" },
+  { value: "original-fit", label: "Fit Text (Variable Height)" },
   { value: "4:5", label: "4:5 (Portrait)" },
 ];
 
@@ -104,8 +104,15 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
     const themeDescription = themeDescriptions[selectedTheme] || 'a neutral background with legible text';
     const fontDescription = fontDescriptions[selectedFont] || 'a standard readable font';
-    const aspectRatioForAI = selectedAspectRatio === "original" ? "1:1" : selectedAspectRatio;
-
+    
+    let aspectRatioForAI: string;
+    if (selectedAspectRatio === "original-fit") {
+      aspectRatioForAI = "dynamic, prioritize fitting all poem text legibly without compression. Image canvas should expand as needed, prefer portrait for long poems, otherwise square.";
+    } else if (selectedAspectRatio === "4:5") {
+      aspectRatioForAI = "4:5 portrait aspect ratio";
+    } else {
+      aspectRatioForAI = "1:1 square aspect ratio"; // Fallback, though UI should prevent this
+    }
 
     try {
       const result = await generatePoemImage({
@@ -147,15 +154,21 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
   const displayTopic = poemTopic || "Verse Vision";
 
   const previewBaseWidth = 280; // pixels
-  const calculatedHeight = selectedAspectRatio === "original"
-    ? previewBaseWidth
-    : (previewBaseWidth * 5) / 4; // For 4:5 aspect ratio
+  let calculatedHeight: string | number = 'auto';
 
-  const previewStyle = {
+  if (selectedAspectRatio === "4:5") {
+    calculatedHeight = (previewBaseWidth * 5) / 4;
+  }
+
+  const previewStyle: React.CSSProperties = {
     color: selectedTextColor,
     width: `${previewBaseWidth}px`,
-    height: `${calculatedHeight}px`,
-  } as React.CSSProperties;
+    height: typeof calculatedHeight === 'number' ? `${calculatedHeight}px` : calculatedHeight,
+    minHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth}px` : undefined,
+    maxHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 1.8}px` : undefined,
+    display: 'flex',
+    flexDirection: 'column',
+  };
 
 
   return (
@@ -245,10 +258,10 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
 
             <div className="mt-8 md:mt-0 flex justify-center items-center p-4 bg-muted/20 rounded-lg">
               <div
-                className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl flex flex-col`}
+                className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl`}
                 style={previewStyle}
               >
-                <div className="text-xs opacity-70 break-words self-start w-full p-1">{displayTopic}</div>
+                <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
                 <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
                   {displayPoem.split('\n').map((line, index) => (
                     <React.Fragment key={index}>

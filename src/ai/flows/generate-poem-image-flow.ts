@@ -17,7 +17,7 @@ const GeneratePoemImageInputSchema = z.object({
   theme: z.string().describe('A description of the visual theme for the image background (e.g., "a vibrant sunset with warm oranges, yellows, and reds").'),
   fontFamily: z.string().describe('A description of the desired font style (e.g., "a classic, readable serif font like Alegreya").'),
   textColorHex: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color code").describe('The hex color code for the poem text (e.g., "#FFFFFF").'),
-  aspectRatio: z.string().describe('The desired aspect ratio for the image (e.g., "1:1" for square/original, "4:5" for portrait).'),
+  aspectRatio: z.string().describe('A description of the desired aspect ratio and sizing (e.g., "4:5 portrait aspect ratio", or "dynamic, prioritize fitting all poem text legibly without compression. Image canvas should expand as needed, prefer portrait for long poems, otherwise square.").'),
 });
 export type GeneratePoemImageInput = z.infer<typeof GeneratePoemImageInputSchema>;
 
@@ -47,8 +47,7 @@ Visual Style Guidelines:
 - Text Appearance:
     - Font Style: Render the poem text using a font that matches this description: "{{{fontFamily}}}". Prioritize legibility.
     - Text Color: The poem text must be in the color specified by this hex code: {{{textColorHex}}}. Ensure good contrast with the background.
-- Layout: Artistically place the poem text onto the background. The text should be the main focus but well-integrated.
-- Aspect Ratio: The final image should be designed for a {{{aspectRatio}}} aspect ratio.
+- Layout & Sizing: Artistically place the poem text onto the background. The text should be the main focus but well-integrated. The final image dimensions and aspect ratio should be guided by the following instruction: "{{{aspectRatio}}}". Ensure the entire poem is legible and not overly compressed or shrunk to fit. The image canvas should expand as needed to accommodate the full text if the instruction implies dynamic sizing.
 
 Generate an image that embodies these characteristics. The image should be beautiful, clear, and shareable.
 `,
