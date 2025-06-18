@@ -101,34 +101,13 @@ const languageOptions = [
 
 // Mappings for LLM prompt
 const themeDescriptions: Record<string, string> = {
-  'theme-default': 'a clean, default light background with high contrast text',
-  'theme-sunset': 'a vibrant sunset with warm oranges, yellows, and reds, text color should be contrasting (e.g., white or very dark)',
-  'theme-minimalist': 'a minimalist, clean light grey or white background with dark, crisp text',
-  'theme-dark': 'a dark, elegant background (e.g., deep space, night sky, or dark charcoal) with light-colored, legible text',
-  'theme-floral': 'a background with a subtle and elegant floral pattern, ensure text is clearly readable over it. data-ai-hint: floral pattern',
-  'theme-vintage-paper': 'a textured vintage paper or parchment background, text should look like ink on old paper',
-  'theme-oceanic-calm': 'a calm oceanic scene with blues, teals, and sandy tones, text should evoke serenity, possibly light colored. data-ai-hint: ocean calm',
-  'theme-galaxy-dream': 'a dreamy galaxy or nebula background with purples, deep blues, and star-like speckles, text should be light and ethereal. data-ai-hint: galaxy nebula',
-  'theme-forest-mist': 'a misty forest background with deep greens and greys, text should be light and ethereal. data-ai-hint: forest mist',
-  'theme-desert-dusk': 'a desert landscape at dusk with warm oranges, purples, and deep shadows, text should be contrasting. data-ai-hint: desert dusk',
-  'theme-mountain-peak': 'a majestic mountain peak background, possibly with snow or clouds, text should be clear and crisp. data-ai-hint: mountain peak',
-  'theme-cherry-blossom': 'a soft, delicate cherry blossom background, with pinks and whites, text should be elegant. data-ai-hint: cherry blossom',
-  'theme-aurora-borealis': 'a vibrant aurora borealis (northern lights) background, with greens, purples, and blues, text should be light. data-ai-hint: aurora borealis',
-  'theme-starry-night': 'a clear night sky full of stars, deep blues and blacks, text should be light. data-ai-hint: starry sky',
-  'theme-tropical-beach': 'a serene tropical beach with white sand, turquoise water, and palm trees, text should fit the calm mood. data-ai-hint: tropical beach',
-  'theme-urban-grit': 'an urban scene with textures like brick, concrete, or graffiti, text could be bold or stencil-like. data-ai-hint: urban city',
-  'theme-pastel-dream': 'a soft pastel colored background with dreamy, abstract shapes or gradients, text should be gentle. data-ai-hint: pastel abstract',
-  'theme-monochrome-lines': 'a minimalist background with clean black and white lines or simple geometric shapes, text should be sharp. data-ai-hint: monochrome lines',
-  'theme-watercolor-splash': 'a background resembling a watercolor painting with soft splashes of color, text should be artistic. data-ai-hint: watercolor texture',
-  'theme-geometric-patterns': 'a background with repeating modern geometric patterns, text should be clean and contemporary. data-ai-hint: geometric pattern',
-  'theme-autumn-leaves': 'a background filled with colorful autumn leaves (reds, oranges, yellows), text should be warm. data-ai-hint: autumn leaves',
-  'theme-winter-frost': 'a frosty winter scene with ice patterns or soft snowfall, text should be crisp and cool. data-ai-hint: winter frost',
-  'theme-spring-meadow': 'a lush green spring meadow with wildflowers, text should be fresh and light. data-ai-hint: spring meadow',
-  'theme-cosmic-dust': 'a background of swirling cosmic dust and distant stars, more muted than galaxy dream, text should be clear. data-ai-hint: cosmic space',
-  'theme-marble-elegance': 'an elegant white or light-colored marble texture background, text should be sophisticated. data-ai-hint: marble texture',
-  'theme-woodgrain-rustic': 'a rustic woodgrain texture background, text should have a natural or handcrafted feel. data-ai-hint: wood texture',
-  'theme-retro-vibes': 'a retro-style background with vintage colors and patterns (e.g., 70s stripes or 80s neon), text should match the era. data-ai-hint: retro pattern',
-  'theme-gothic-romance': 'a dark, romantic gothic background with elements like roses, lace, or ornate patterns, text could be script or blackletter. data-ai-hint: gothic dark',
+  'theme-soft-gradient-pastels': "A smooth, horizontal or diagonal gradient transition between light, soothing pastel colors like lavender, baby pink, peach, mint, or pale blue. Creates a dreamy, calm atmosphere.",
+  'theme-vintage-parchment': "A textured background mimicking old, slightly yellowed parchment paper, possibly with faint lines or a vintage feel. Torn edges or coffee stain effects are optional if the AI can render them subtly.",
+  'theme-monochrome-dark': "A solid, very dark background (e.g., jet black, deep navy, or graphite grey) with light-colored text (e.g., white, beige, or soft gold) for a dramatic, high-contrast, elegant look.",
+  'theme-blurred-nature': "A nature scene (forest, ocean, sunset, flowers) as a background, with a soft blur effect applied so the text remains the focus. The nature imagery should set a peaceful, serene, or spiritual mood. data-ai-hint: nature blur",
+  'theme-minimalist-abstract': "A clean, minimalist background with subtle abstract shapes, light lines, or soft brush strokes, typically using a neutral color palette. The design should feel modern and artistic, keeping the text as the primary focus.",
+  'theme-aesthetic-collage': "A scrapbook-inspired theme featuring elements like torn paper, doodles, tape graphics, or polaroid frames. It should feel youthful, expressive, and handmade. data-ai-hint: scrapbook collage",
+  'theme-glassmorphism-glow': "A modern UI-inspired theme. The poem text appears on a translucent, frosted-glass-style panel. The background behind the panel is often a blurred image or a soft gradient with a subtle glow. The look should be sleek and futuristic. data-ai-hint: glassmorphism abstract",
 };
 
 const fontDescriptions: Record<string, string> = {
@@ -206,7 +185,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     } else if (selectedAspectRatio === "4:5") {
       aspectRatioForAI = "4:5 portrait aspect ratio";
     } else {
-      aspectRatioForAI = "1:1 square aspect ratio";
+      aspectRatioForAI = "1:1 square aspect ratio"; // Fallback, though UI only offers two
     }
 
     try {
@@ -289,7 +268,7 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     calculatedHeight = (previewBaseWidth * 5) / 4;
   } else if (selectedAspectRatio === "original-fit") {
      // handled by auto and min/max height in style
-  } else { // Default to 1:1 if something unexpected
+  } else { // Default to 1:1 if something unexpected (though UI only offers two)
     calculatedHeight = previewBaseWidth;
   }
 
@@ -298,8 +277,8 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
     color: selectedTextColor,
     width: `${previewBaseWidth}px`,
     height: typeof calculatedHeight === 'number' ? `${calculatedHeight}px` : calculatedHeight,
-    minHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 0.8}px` : undefined, // Ensure some min height
-    maxHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 2.5}px` : undefined, // Allow more room for text
+    minHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 0.8}px` : undefined, // Ensure some min height for original-fit
+    maxHeight: selectedAspectRatio === "original-fit" ? `${previewBaseWidth * 2.5}px` : undefined, // Allow more room for text in original-fit
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden', // Ensure content clip
@@ -423,15 +402,32 @@ const InstagramPreviewSection: React.FC<InstagramPreviewSectionProps> = ({
                 className={`poem-preview-area ${selectedTheme} ${selectedFont} shadow-xl`}
                 style={previewStyle}
               >
-                <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
-                <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
-                  {displayPoemText.split('\n').map((line, index) => (
-                    <React.Fragment key={index}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                </div>
+                {/* For themes like glassmorphism that need an inner div for styling */}
+                {selectedTheme === 'theme-glassmorphism-glow' ? (
+                  <div>
+                    <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
+                    <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
+                      {displayPoemText.split('\n').map((line, index) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-xs opacity-70 break-words self-start w-full p-1 shrink-0">{displayTopic}</div>
+                    <div className="text-sm leading-relaxed break-words self-start w-full flex-grow overflow-y-auto min-h-0 p-1">
+                      {displayPoemText.split('\n').map((line, index) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 

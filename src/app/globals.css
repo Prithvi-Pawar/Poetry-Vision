@@ -156,162 +156,97 @@ h1, h2, h3, h4, h5, h6 {
   word-wrap: break-word;
 }
 
-.theme-default {
-  background: hsl(var(--background));
-  --font-color-preview: hsl(var(--foreground));
+/* New Theme 1: Soft Gradient Pastels */
+.theme-soft-gradient-pastels {
+  background: linear-gradient(135deg, #FFD1DC 0%, #FFDAB9 33%, #E0FFFF 66%, #D8BFD8 100%); /* Baby Pink, Peach, Pale Blue, Lavender */
+  --font-color-preview: #4A4A4A; /* Dark Grey for readability */
 }
-.theme-sunset {
-  background: linear-gradient(135deg, #FFB74D 0%, #FF8A65 50%, #E64A19 100%);
-  --font-color-preview: #FFFFFF;
+
+/* New Theme 2: Paper Texture / Old Parchment */
+.theme-vintage-parchment {
+  background-color: #F5F5DC; /* Beige - base for parchment */
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), /* Subtle horizontal lines */
+    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); /* Subtle vertical lines */
+  background-size: 20px 20px; /* Grid for texture */
+  border: 1px solid #D2B48C; /* Tan border */
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1); /* Inner shadow for depth */
+  --font-color-preview: #5D4037; /* Dark Sepia/Brown */
 }
-.theme-minimalist {
-  background: #F5F5F5;
-  --font-color-preview: #333333;
-  border: 1px solid #E0E0E0;
+
+/* New Theme 3: Dark with Light Text (Monochrome) */
+.theme-monochrome-dark {
+  background-color: #1A1A1A; /* Very dark grey / near black */
+  --font-color-preview: #FAFAFA; /* Off-white for text */
 }
-.theme-dark {
-  background: #212121;
-  --font-color-preview: #FAFAFA;
-}
-.theme-floral {
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for floral pattern */
+
+/* New Theme 4: Nature Backgrounds (Blurred) */
+.theme-blurred-nature {
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder, AI will generate blurred nature */
   background-size: cover;
   background-position: center;
-  --font-color-preview: #2F2F2F; /* Dark text for light floral */
-}
-.theme-vintage-paper {
-  background-color: #f5e8c7; /* Creamy paper */
-  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: 20px 20px; /* Subtle grid for texture */
-  --font-color-preview: #5D4037; /* Dark sepia/brown */
-  border: 1px solid #D2B48C; /* Tan border */
-}
-.theme-oceanic-calm {
-  background: linear-gradient(to right top, #6DD5FA, #2980B9, #0c2e4e); /* Blue gradient */
-  --font-color-preview: #E0F7FA; /* Light cyan/white */
-}
-.theme-galaxy-dream {
-  background: linear-gradient(135deg, #23074d 0%, #cc5333 100%); /* Dark purple to orange */
-  --font-color-preview: #E1BEE7; /* Light lavender */
+  position: relative;
+  /* For client-side blur effect on placeholder if desired, though AI should handle actual blur */
+  /* &::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: inherit;
+    filter: blur(5px);
+    z-index: -1;
+  } */
+  --font-color-preview: #FFFFFF; /* White text, often good on blurred nature */
 }
 
-/* 20 New Themes */
-.theme-forest-mist {
-  background: linear-gradient(120deg, #3A5F40 0%, #587D5C 50%, #89A88B 100%);
-  --font-color-preview: #E8F5E9;
+/* New Theme 5: Minimalist Abstract Art */
+.theme-minimalist-abstract {
+  background-color: #F8F8F8; /* Light neutral background */
+  background-image: 
+    linear-gradient(45deg, rgba(204, 204, 204, 0.2) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba(204, 204, 204, 0.2) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(204, 204, 204, 0.2) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(204, 204, 204, 0.2) 75%);
+  background-size: 30px 30px;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0px; /* Offset for subtle pattern */
+  --font-color-preview: #333333; /* Dark grey text */
 }
-.theme-desert-dusk {
-  background: linear-gradient(120deg, #B07040 0%, #D8A060 50%, #F8D090 100%);
-  --font-color-preview: #4E342E;
-}
-.theme-mountain-peak {
-  background: linear-gradient(180deg, #A0AEC0 0%, #718096 60%, #4A5568 100%);
-  --font-color-preview: #FFFFFF;
-}
-.theme-cherry-blossom {
-  background-color: #FFF0F5; /* LavenderBlush */
-  background-image: radial-gradient(circle, #FFB6C1 /* LightPink */ 20%, transparent 21%),
-                    radial-gradient(circle, #FFC0CB /* Pink */ 20%, transparent 21%);
-  background-size: 50px 50px;
-  background-position: 0 0, 25px 25px;
-  --font-color-preview: #8B4561; /* Darker Pink/Maroon */
-}
-.theme-aurora-borealis {
-  background: linear-gradient(45deg, #00C9A7, #5E60CE, #C471ED, #FF89A3);
-  background-size: 300% 300%;
-  animation: gradientBG 20s ease infinite;
-  --font-color-preview: #FFFFFF;
-}
-.theme-starry-night {
-  background-color: #0B1C33; /* Deep blue */
-  background-image: radial-gradient(#FFFFFF10 1px, transparent 1px);
-  background-size: 15px 15px;
-  --font-color-preview: #F0F8FF; /* AliceBlue */
-}
-.theme-tropical-beach {
-  background: linear-gradient(to bottom, #87CEEB /* SkyBlue */, #FFDAB9 /* PeachPuff */, #20B2AA /* LightSeaGreen */);
-  --font-color-preview: #000080; /* Navy */
-}
-.theme-urban-grit {
-  background-color: #A9A9A9; /* DarkGray */
-  background-image:  repeating-linear-gradient(45deg, #C0C0C0, #C0C0C0 10px, #A9A9A9 10px, #A9A9A9 20px);
-  --font-color-preview: #1A1A1A; /* Very Dark Gray */
-}
-.theme-pastel-dream {
-  background: linear-gradient(135deg, #A7E6FF 0%, #E0BBE4 50%, #FFDFD3 100%);
-  --font-color-preview: #5C5470; /* Dark lavender grey */
-}
-.theme-monochrome-lines {
-  background: #FFFFFF;
-  background-image: linear-gradient(#E0E0E0 1px, transparent 1px), linear-gradient(90deg, #E0E0E0 1px, transparent 1px);
-  background-size: 15px 15px;
-  --font-color-preview: #212121;
-}
-.theme-watercolor-splash {
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder, use a watercolor texture */
+
+/* New Theme 6: Aesthetic Collage / Scrapbook Style */
+.theme-aesthetic-collage {
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for collage */
+  background-color: #FFF9E6; /* Creamy off-white base */
   background-size: cover;
-  background-blend-mode: overlay;
-  background-color: rgba(220, 230, 255, 0.5); /* Light blueish tint */
-  --font-color-preview: #3A4F7A; /* Dark desaturated blue */
+  background-position: center;
+  border: 5px dashed #D1C4E9; /* Light purple dashed border */
+  --font-color-preview: #4B4254; /* Darker, slightly desaturated purple */
 }
-.theme-geometric-patterns {
-  background-color: #f0f0f0;
-  background-image:
-    linear-gradient(45deg, #ccc 25%, transparent 25%),
-    linear-gradient(-45deg, #ccc 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #ccc 75%),
-    linear-gradient(-45deg, transparent 75%, #ccc 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  --font-color-preview: #444444;
-}
-.theme-autumn-leaves {
-  background: linear-gradient(to right, #DA702C, #BF5700, #A24D03);
-  --font-color-preview: #FFF8DC; /* Cornsilk */
-}
-.theme-winter-frost {
-  background: linear-gradient(to bottom right, #E0FFFF, #B0E0E6, #ADD8E6);
-  --font-color-preview: #00008B; /* DarkBlue */
-}
-.theme-spring-meadow {
-  background: linear-gradient(to top left, #90EE90 /* LightGreen */, #3CB371 /* MediumSeaGreen */, #66CDAA /* MediumAquaMarine */);
-  --font-color-preview: #2F4F4F; /* DarkSlateGray */
-}
-.theme-cosmic-dust {
-  background-color: #1a1a2e; /* Dark blue/purple */
-  background-image:
-    radial-gradient(ellipse at top left, rgba(255,255,255,0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(255,255,255,0.1) 0%, transparent 50%);
-  --font-color-preview: #EAEAEA; /* Light grey */
-}
-.theme-marble-elegance {
-  background-color: #FAFAFA;
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder, use marble texture */
+
+/* New Theme 7: Glassmorphism / Blur + Glow */
+.theme-glassmorphism-glow {
+  background-image: url('https://placehold.co/600x400.png'); /* Placeholder for blurred/glow background */
   background-size: cover;
-  --font-color-preview: #3E3E3E;
+  background-position: center;
+  position: relative;
+  overflow: hidden; /* To contain pseudo-elements */
 }
-.theme-woodgrain-rustic {
-  background-color: #8B4513; /* SaddleBrown */
-  background-image: url('https://placehold.co/600x400.png'); /* Placeholder, use wood texture */
-  background-size: cover;
-  --font-color-preview: #F5F5DC; /* Beige */
+
+.theme-glassmorphism-glow > div { /* Target inner content divs for glass effect */
+  background-color: rgba(255, 255, 255, 0.25); /* Semi-transparent white */
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  padding: inherit; /* Inherit padding from poem-preview-area */
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
-.theme-retro-vibes {
-  background: repeating-linear-gradient(
-    45deg,
-    #f9d423,
-    #f9d423 10px,
-    #ff4e50 10px,
-    #ff4e50 20px
-  );
-  --font-color-preview: #333333;
+.theme-glassmorphism-glow {
+  --font-color-preview: #F0F0F0; /* Light text for readability on glass */
 }
-.theme-gothic-romance {
-  background: linear-gradient(135deg, #480607 0%, #1c0000 100%);
-  --font-color-preview: #D1C4E9; /* Light purple */
-}
+
 
 /* Ensure data-ai-hint attributes for theme images if any real images are used */
-.theme-floral[style*="url("], .theme-watercolor-splash[style*="url("], .theme-marble-elegance[style*="url("], .theme-woodgrain-rustic[style*="url("] {
+.theme-blurred-nature[style*="url("], .theme-aesthetic-collage[style*="url("], .theme-glassmorphism-glow[style*="url("] {
   /* This is just a conceptual note, the data-ai-hint is on the HTML element */
 }

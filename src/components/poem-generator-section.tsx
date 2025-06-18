@@ -21,34 +21,13 @@ interface PoemGeneratorSectionProps {
 }
 
 const themes = [
-  { value: "theme-default", label: "Default" },
-  { value: "theme-minimalist", label: "Minimalist" },
-  { value: "theme-dark", label: "Dark Mode" },
-  { value: "theme-sunset", label: "Sunset Glow" },
-  { value: "theme-floral", label: "Floral" },
-  { value: "theme-vintage-paper", label: "Vintage Paper" },
-  { value: "theme-oceanic-calm", label: "Oceanic Calm" },
-  { value: "theme-galaxy-dream", label: "Galaxy Dream" },
-  { value: "theme-forest-mist", label: "Forest Mist" },
-  { value: "theme-desert-dusk", label: "Desert Dusk" },
-  { value: "theme-mountain-peak", label: "Mountain Peak" },
-  { value: "theme-cherry-blossom", label: "Cherry Blossom" },
-  { value: "theme-aurora-borealis", label: "Aurora Borealis" },
-  { value: "theme-starry-night", label: "Starry Night" },
-  { value: "theme-tropical-beach", label: "Tropical Beach" },
-  { value: "theme-urban-grit", label: "Urban Grit" },
-  { value: "theme-pastel-dream", label: "Pastel Dream" },
-  { value: "theme-monochrome-lines", label: "Monochrome Lines" },
-  { value: "theme-watercolor-splash", label: "Watercolor Splash" },
-  { value: "theme-geometric-patterns", label: "Geometric Patterns" },
-  { value: "theme-autumn-leaves", label: "Autumn Leaves" },
-  { value: "theme-winter-frost", label: "Winter Frost" },
-  { value: "theme-spring-meadow", label: "Spring Meadow" },
-  { value: "theme-cosmic-dust", label: "Cosmic Dust" },
-  { value: "theme-marble-elegance", label: "Marble Elegance" },
-  { value: "theme-woodgrain-rustic", label: "Woodgrain Rustic" },
-  { value: "theme-retro-vibes", label: "Retro Vibes" },
-  { value: "theme-gothic-romance", label: "Gothic Romance" },
+  { value: "theme-soft-gradient-pastels", label: "🌅 Soft Gradient Pastels" },
+  { value: "theme-vintage-parchment", label: "📜 Vintage Parchment" },
+  { value: "theme-monochrome-dark", label: "🌑 Monochrome Dark" },
+  { value: "theme-blurred-nature", label: "🌿 Blurred Nature" },
+  { value: "theme-minimalist-abstract", label: "🌀 Minimalist Abstract" },
+  { value: "theme-aesthetic-collage", label: "✂️ Aesthetic Collage" },
+  { value: "theme-glassmorphism-glow", label: "✨ Glassmorphism Glow" },
 ];
 
 const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemGenerated, setSelectedTheme, currentPoem, initialTopic, setInitialTopic }) => {
@@ -157,7 +136,7 @@ const PoemGeneratorSection: React.FC<PoemGeneratorSectionProps> = ({ id, onPoemG
                   <label htmlFor="theme-select" className="font-medium text-foreground/80 flex items-center">
                      <Palette className="mr-2 h-5 w-5 text-accent"/> Image Theme
                   </label>
-                  <Select onValueChange={setSelectedTheme} defaultValue="theme-default">
+                  <Select onValueChange={setSelectedTheme} defaultValue="theme-soft-gradient-pastels">
                     <SelectTrigger id="theme-select" className="w-full" aria-label="Select image theme">
                       <SelectValue placeholder="Select a theme" />
                     </SelectTrigger>
