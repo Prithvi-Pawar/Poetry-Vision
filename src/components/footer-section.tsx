@@ -5,16 +5,18 @@ import type React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { InstagramIcon, GithubIcon, LinkedinIcon } from "./icons";
-import { Mail } from 'lucide-react';
+import { Mail, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from "@/hooks/use-toast";
 import { useState } from 'react';
+import { generateDailyDispatch } from '@/ai/flows/generate-daily-dispatch';
 
 const FooterSection: React.FC = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !email.includes('@')) {
       toast({
@@ -24,13 +26,35 @@ const FooterSection: React.FC = () => {
       });
       return;
     }
-    // Placeholder for actual newsletter subscription
-    console.log("Newsletter subscription for:", email);
-    toast({
-      title: "Subscribed!",
-      description: `Thank you for subscribing, ${email}! You'll receive daily poems. (This is a demo)`,
-    });
-    setEmail('');
+    
+    setIsSubscribing(true);
+
+    try {
+      // This is a placeholder for a real subscription flow.
+      // In a real app, you would save the email to a database.
+      // Then a scheduled function would generate and send the email.
+      console.log("Newsletter subscription for:", email);
+
+      // For this demo, we'll generate a sample dispatch to show the user.
+      const dispatch = await generateDailyDispatch();
+      
+      toast({
+        title: "Subscribed! (Demo)",
+        description: `Thank you for subscribing! As a demo, we don't store emails or send them automatically. Here is a sample of what you would receive: "${dispatch.poem.substring(0, 50)}..." - "${dispatch.quote.substring(0, 50)}..."`,
+        duration: 9000,
+      });
+      setEmail('');
+
+    } catch (error) {
+      console.error("Failed to generate sample dispatch:", error);
+      toast({
+        title: "Subscription Failed",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   return (
@@ -75,11 +99,24 @@ const FooterSection: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-grow"
                 aria-label="Email for newsletter"
+                disabled={isSubscribing}
               />
-              <Button type="submit" variant="default" className="bg-accent hover:bg-accent/90 shrink-0">
-                <Mail className="mr-2 h-4 w-4" /> Subscribe
+              <Button type="submit" variant="default" className="bg-accent hover:bg-accent/90 shrink-0" disabled={isSubscribing}>
+                {isSubscribing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Subscribing...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="mr-2 h-4 w-4" /> Subscribe
+                  </>
+                )}
               </Button>
             </form>
+            <p className="text-xs text-muted-foreground">
+                Demo only. We don't store your email or send automated messages. The scheduling and email delivery would require a backend database and cron job service.
+            </p>
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
