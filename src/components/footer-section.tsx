@@ -4,7 +4,7 @@
 import type React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { InstagramIcon, TwitterIcon } from "./icons"; // Using custom icons
+import { InstagramIcon, GithubIcon, LinkedinIcon } from "./icons";
 import { Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from "@/hooks/use-toast";
@@ -46,8 +46,11 @@ const FooterSection: React.FC = () => {
               <Link href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <InstagramIcon size={28} />
               </Link>
-              <Link href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <TwitterIcon size={28} />
+              <Link href="#" aria-label="GitHub" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <GithubIcon size={28} />
+              </Link>
+              <Link href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <LinkedinIcon size={28} />
               </Link>
             </div>
           </div>
@@ -55,9 +58,9 @@ const FooterSection: React.FC = () => {
           <div className="space-y-4 md:col-span-1">
             <h4 className="font-headline text-lg font-semibold">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
             </ul>
           </div>
 
