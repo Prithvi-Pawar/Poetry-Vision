@@ -1,9 +1,8 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Wand2 } from 'lucide-react';
-import Image from 'next/image';
 
 export default function AboutUs() {
   return (
@@ -16,17 +15,8 @@ export default function AboutUs() {
           </Link>
         </Button>
         <Card className="shadow-xl overflow-hidden">
-          <div className="relative h-48 w-full">
-             <Image 
-                src="https://placehold.co/800x300.png"
-                alt="Abstract art representing creativity"
-                fill
-                className="object-cover animated-gradient"
-                data-ai-hint="abstract poetry"
-              />
-              <div className="absolute inset-0 bg-background/30 backdrop-blur-sm flex items-center justify-center">
-                 <h1 className="font-headline text-5xl text-primary-foreground drop-shadow-lg">About Poetry Vision</h1>
-              </div>
+          <div className="relative h-48 w-full animated-gradient flex items-center justify-center">
+             <h1 className="font-headline text-5xl text-primary-foreground drop-shadow-lg">About Poetry Vision</h1>
           </div>
           <CardContent className="p-6 space-y-6 text-muted-foreground leading-relaxed">
             <div className="flex items-center text-primary">
