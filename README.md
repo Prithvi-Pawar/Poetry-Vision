@@ -14,8 +14,8 @@ Features
 Project Structure
 -----------------
 
-Poetry-Vision/
-├── src/
+Poetry-Vision/<br>
+├── src/<br>
 │   ├── ai/                              
 │   │   └── flows/                       
 │   └── tailwind.config.ts              
