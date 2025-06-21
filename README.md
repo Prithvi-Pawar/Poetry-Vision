@@ -36,7 +36,7 @@ Prerequisites:
 
 Installation:
 1. Clone the repository
-   git clone https://github.com/your-username/Poetry-Vision.git
+   git clone- [https://github.com/your-username/Poetry-Vision.git](https://github.com/Prithvi-Pawar/Poetry-Vision.git)
 2. Navigate into the project directory
    cd Poetry-Vision
 3. Install the dependencies
