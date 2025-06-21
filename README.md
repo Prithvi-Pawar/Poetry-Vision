@@ -80,4 +80,4 @@ Contributing
 Contact
 -------
 
-Made with ❤️ by [Your Name or Team Name]
+Made with ❤️ by [Prithvi Pawar]
